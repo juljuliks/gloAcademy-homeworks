@@ -1,4 +1,4 @@
-const money = 3245432445678n;
+let money;
 let income;
 let addExpenses;
 let deposit;
