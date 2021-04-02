@@ -11,6 +11,6 @@ console.log(`Тип данных money - ${typeof(money)},
 Тип данных deposit - ${typeof(deposit)}`);  
 console.log(`addExpenses lenght - ${addExpenses.length}`);
 console.log(`Период равен ${period} месяцев`);
-console.log(`Цель разарботать ${mission} рублей`);
+console.log(`Цель зарарботать ${mission} рублей`);
 console.log((addExpenses.toLowerCase()).split(','));
 console.log(budgetDay);
