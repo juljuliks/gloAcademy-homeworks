@@ -14,6 +14,7 @@
 
 
 // Решение 2
+
 // let num = 266219,
 //     numToString = num.toString(),
 //     arr = numToString.split(''),
@@ -31,6 +32,7 @@
 
 
 // Решение 3
+
 let num = 266219,
     numToString = num.toString(),
     arr = numToString.split('');
