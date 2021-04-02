@@ -14,40 +14,36 @@
 
 
 // Решение 2
+// let num = 266219,
+//     numToString = num.toString(),
+//     arr = numToString.split(''),
+//     result = 1;
+
+// arr.forEach(item => {
+//     result *= item;
+// })
+
+// console.log(result);
+
+// result **= 3;
+
+// console.log(+result.toString().slice(0, 2));
+
+
+// Решение 3
 let num = 266219,
     numToString = num.toString(),
-    arr = [],
+    arr = numToString.split('');
     result = 1;
 
 for(let i = 0; i < numToString.length; i++) {
     arr.push(numToString.charAt(i));
 } 
 
-arr.forEach(item => {
-    result *= item;
-})
+for(let i = 0; i < arr.length; i++) {
+    result *= arr[i];
+} 
 
 console.log(result);
 
-result **= 3;
-
 console.log(+result.toString().slice(0, 2));
-
-
-// Решение 3
-// let num = 266219,
-//     numToString = num.toString(),
-//     arr = [],
-//     result = 1;
-
-// for(let i = 0; i < numToString.length; i++) {
-//     arr.push(numToString.charAt(i));
-// } 
-
-// for(let i = 0; i < arr.length; i++) {
-//     result *= arr[i];
-// } 
-
-// console.log(result);
-
-// console.log(+result.toString().slice(0, 2));
