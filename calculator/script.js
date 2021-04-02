@@ -4,7 +4,7 @@ let money = 100000,
     deposit = true,
     mission = 500000,
     period = 12,
-    budgetDay = 3333.33;
+    budgetDay = Math.round(money / 30);
 
 console.log(`Тип данных money - ${typeof(money)}, 
 Тип данных income - ${typeof(income)},
