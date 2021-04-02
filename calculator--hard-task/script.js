@@ -46,7 +46,9 @@ console.log(+result.toString().slice(0, 2));
 //      return a * b;
 //  });
 
-//  console.log(result);
+// console.log(result);
+
+// result **= 3;
 
 // console.log(+result.toString().slice(0, 2));
 
