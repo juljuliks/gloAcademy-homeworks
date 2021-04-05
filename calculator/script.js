@@ -37,7 +37,7 @@ monthToComplete = Math.ceil(mission / budgetMonth);
 console.log(`Бюджет на месяц ${budgetMonth}`);
 console.log(`Бюджет на день ${budgetDay}`);
 
-let displayNumOfMonth = (monthToComplete !== Infinity) ? console.log(`Цель будет достигнута через ${monthToComplete}`) : console.log('Нужно увеличить доход');
+let displayNumOfMonth = (monthToComplete !== Infinity) ? console.log(`Цель будет достигнута через ${monthToComplete} месяцев`) : console.log('Нужно увеличить доход');
 console.log(displayNumOfMonth);
 
 if (budgetDay >= 1200) {
