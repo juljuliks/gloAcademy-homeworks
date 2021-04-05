@@ -38,9 +38,6 @@ let languages = new Map([
     [ 'en', 'monday, tuesday, wednesday, thursday, friday, saturday, sunday']
 ])
 
-languages.langRu = 'ru';
-languages.langEn = 'en';
-
 console.log(languages.get(lang));
 
 
