@@ -1,54 +1,55 @@
-// Решение 1 c помощью циклов for
+// Задание 1
+// a.
+let lang = 'en';
 
-let num = 266219,
-    numToString = num.toString(),
-    arr = [],
-    result = 1;
+if (lang === 'en') {
+    console.log('monday, tuesday, wednesday, thursday, friday, saturday, sunday');
+}  else if (lang === 'ru') {
+    console.log('понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
+} else {
+    console.log('Значение переменной lang должно быть "en" или "ru"')
+}
 
-for(let i = 0; i < numToString.length; i++) {
-    arr.push(numToString.charAt(i));
-} 
+// b.
+switch (lang) {
+    case 'en':
+    console.log('monday, tuesday, wednesday, thursday, friday, saturday, sunday')
+    break;
 
-for(let i = 0; i < arr.length; i++) {
-    result *= arr[i];
-} 
+    case 'ru':
+    console.log('понедельник, вторник, среда, четверг, пятница, суббота, воскресенье')
+    break;
+
+    default:
+    console.log('Значение переменной lang должно быть "en" или "ru"')
+}
+
+// c.
+let arr = [];
+arr['ru'] = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
+arr['en'] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+console.log(arr[lang]);
+
+// OR
+
+let languages = new Map([
+    [ 'ru', 'понедельник, вторник, среда, четверг, пятница, суббота, воскресенье' ],
+    [ 'eng', 'monday, tuesday, wednesday, thursday, friday, saturday, sunday']
+])
+
+languages.langRu = 'ru';
+languages.langEn = 'en';
+
+console.log(languages.get(lang));
+
+
+// Задание 2
+
+let namePerson = 'Максим',
+    result;
+
+result = (namePerson === 'Артем') ? 'директор' : result = (namePerson === 'Максим') ? 'преподаватель' : 'студент';
 
 console.log(result);
-
-result **= 3;
-
-console.log(+result.toString().slice(0, 2));
-
-
-// Решение 2 с помощью split() и forEach 
-
-// let num = 266219,
-//     arr = num.toString().split(''),
-//     result = 1;
-
-// arr.forEach(item => {
-//     result *= item;
-// })
-
-// console.log(result);
-
-// result **= 3;
-
-// console.log(+result.toString().slice(0, 2));
-
-
-// Решение 3 с помощью split() и reduse()
-
-// let num = 266219,
-//     arr = num.toString().split('');
-
-// let result = arr.reduce(function(a, b) {
-//      return a * b;
-//  });
-
-// console.log(result);
-
-// result **= 3;
-
-// console.log(+result.toString().slice(0, 2));
 
