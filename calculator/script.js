@@ -7,16 +7,18 @@ let money = 100000,
     mission = 500000,
     period = 12,
     budgetDay = (money / 30).toFixed(2),
+
     expenses1,
     expenses2,
     amount1,
     amount2,
-    budgetMonth;
+    budgetMonth,
+    monthToComplete;
 
 console.log(`Тип данных money - ${typeof(money)}, 
 Тип данных income - ${typeof(income)},
 Тип данных deposit - ${typeof(deposit)}`);  
-console.log(`addExpenses langht - ${addExpenses.langth}`);
+console.log(`addExpenses lenght - ${addExpenses.length}`);
 console.log(`Период равен ${period} месяцев`);
 console.log(`Цель заработать ${mission} рублей`);
 console.log((addExpenses.toLowerCase()).split(','));
@@ -31,10 +33,13 @@ amount1 = +prompt('Во сколько это обойдется?');
 amount2 = +prompt('Во сколько это обойдется?');
 budgetMonth = Math.ceil(money - (amount1 + amount2));
 budgetDay = Math.floor(budgetMonth / 30);
+monthToComplete = Math.ceil(mission / budgetMonth);
 
 console.log(`Бюджет на месяц ${budgetMonth}`);
-console.log(`Цель будет достигнута через ${Math.ceil(mission / budgetMonth)} месяцев`);
 console.log(`Бюджет на день ${budgetDay}`);
+
+let displayNumOfMonth = (monthToComplete !== Infinity) ? console.log(`Цель будет достигнута через ${monthToComplete}`) : console.log('Нужно увеличить доход');
+console.log(displayNumOfMonth);
 
 if (budgetDay >= 1200) {
     console.log('У вас высокий уровень дохода');
@@ -45,5 +50,4 @@ if (budgetDay >= 1200) {
 } else {
     console.log('Что-то пошло не так');
 }
-
 
