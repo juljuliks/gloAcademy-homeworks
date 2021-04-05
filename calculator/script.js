@@ -22,7 +22,6 @@ console.log(`addExpenses lenght - ${addExpenses.length}`);
 console.log(`Период равен ${period} месяцев`);
 console.log(`Цель заработать ${mission} рублей`);
 console.log((addExpenses.toLowerCase()).split(','));
-console.log(`Бюджет на день: ${budgetDay}`);
 
 money = +prompt('Ваш месячный доход?');
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
