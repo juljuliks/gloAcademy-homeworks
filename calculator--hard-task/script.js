@@ -29,13 +29,13 @@ let arr = [];
 arr['ru'] = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
 arr['en'] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-console.log(arr[lang]);
+console.log(arr[lang].join(', '));
 
 // OR
 
 let languages = new Map([
     [ 'ru', 'понедельник, вторник, среда, четверг, пятница, суббота, воскресенье' ],
-    [ 'eng', 'monday, tuesday, wednesday, thursday, friday, saturday, sunday']
+    [ 'en', 'monday, tuesday, wednesday, thursday, friday, saturday, sunday']
 ])
 
 languages.langRu = 'ru';
