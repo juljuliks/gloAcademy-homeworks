@@ -56,9 +56,5 @@ let getStatusIncome = function() {
 
 console.log(getStatusIncome());
 
-let displayNumOfMonth = ( getTargetMonth() !== Infinity || getTargetMonth() !== NaN) ? console.log(`Цель будет достигнута через ${getTargetMonth()} месяцев`) : console.log('Нужно увеличить доход');
+let displayNumOfMonth = ( getTargetMonth() !== Infinity) ? console.log(`Цель будет достигнута через ${getTargetMonth()} месяцев`) : console.log('Для рассчета нужно ввести числовое значение больше нуля');
 console.log(displayNumOfMonth);
-
-
-
- 
