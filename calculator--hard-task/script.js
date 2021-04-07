@@ -22,15 +22,15 @@ for(let i = 1; i <= num; i++) {
 }
 
 // Решение с помощью функции и цикла
-function isPrime(num) {
-    for (let i = 1; i < num; i++) {
-        if (i === 1) continue;
-        if(num % i == 0) return false;
+
+function primeDigits(num) {
+    for(let i = 1; i < num; i++) {
+        let isPrime = true;
+        for(let n = 2; n < i; n++) {
+            if (i % n === 0) isPrime = false;
+        }
+        if (isPrime) console.log(`Делители числа ${i}: 1 и ${i}`);
     }
-    return true;
 }
 
-for(let i = 1; i < 100; i++) {
-    if (i === 1) continue;
-    if(isPrime(i)) console.log(`Делители числа ${i}: 1 и ${i}`)
-}
+primeDigits(100);
