@@ -14,7 +14,7 @@ let money = +prompt('Ваш месячный доход?'),
     amount2 = +prompt('Вопрос #4: Во сколько это обойдется?');
 
 let showTypeOf = function(data) {
-    console.log(`Тип данных ${data} - ${typeof(money)}`);
+    console.log(`Тип данных ${data} - ${typeof(data)}`);
 }
 
 showTypeOf(money);
@@ -58,3 +58,4 @@ console.log(getStatusIncome());
 
 let displayNumOfMonth = ( getTargetMonth() !== Infinity) ? console.log(`Цель будет достигнута через ${getTargetMonth()} месяцев`) : console.log('Для рассчета нужно ввести числовое значение больше нуля');
 console.log(displayNumOfMonth);
+
