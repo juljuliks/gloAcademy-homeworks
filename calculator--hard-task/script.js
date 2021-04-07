@@ -11,7 +11,7 @@ let getTrimmed = function(str) {
     
 }
 
-let check = getTrimmed('     rewh hwteh wth wth wt wth w strjrjwr         ');
+let check = getTrimmed('      grab reh eh hsfdht tw hshw s wthhtw      ');
 
 console.log(check);
 
