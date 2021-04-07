@@ -23,7 +23,7 @@ for(let i = 1; i <= num; i++) {
 
 // Решение с помощью функции и цикла
 
-function primeDigits(num) {
+function getPrimeDigits(num) {
     for(let i = 1; i < num; i++) {
         let isPrime = true;
         for(let n = 2; n < i; n++) {
@@ -33,4 +33,4 @@ function primeDigits(num) {
     }
 }
 
-primeDigits(100);
+getPrimeDigits(100);
