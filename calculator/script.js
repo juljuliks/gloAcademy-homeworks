@@ -61,7 +61,6 @@ function getTargetMonth() {
 };
 
 let targetMonth = getTargetMonth();
-console.log('target month', targetMonth);
 
 budgetDay = Math.floor(accumulatedMonth / 30);
 
