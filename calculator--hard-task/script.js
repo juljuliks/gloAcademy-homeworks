@@ -11,23 +11,26 @@ arr.forEach(item => {
 let num = 100;
 
 getNextNumber:
-for(let i = 2; i <= num; i++) {
+for(let i = 1; i <= num; i++) {
+    if (i === 1) continue;
    
-    for(let n = 2; n < i; n++) {
-        if (i % n == 0) continue getNextNumber;
+    for(let n = 1; n < i; n++) {
+        if (i % n === 0) continue getNextNumber;
     }
 
-    console.log(`Делители этого числа: 1 и ${i}`);
+    console.log(`Делители числа ${i}: 1 и ${i}`);
 }
 
 // Решение с помощью функции и цикла
 function isPrime(num) {
-    for (let i = 2; i < num; i++) {
+    for (let i = 1; i < num; i++) {
+        if (i === 1) continue;
         if(num % i == 0) return false;
     }
     return true;
 }
 
-for(let i = 0; i < 100; i++) {
-    if(isPrime(i)) console.log(`Делители этого числа: 1 и ${i}`)
+for(let i = 1; i < 100; i++) {
+    if (i === 1) continue;
+    if(isPrime(i)) console.log(`Делители числа ${i}: 1 и ${i}`)
 }
