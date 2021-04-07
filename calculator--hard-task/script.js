@@ -8,7 +8,7 @@ arr.forEach(item => {
 })
 
 
-// Решение с помощью функции и цикла
+// Задание 2. Решение с помощью функции и цикла
 
 function getPrimeDigits(num) {
     for(let i = 1; i < num; i++) {
@@ -23,7 +23,7 @@ function getPrimeDigits(num) {
 getPrimeDigits(100);
 
 
-// Задание 2 решение с помощью меток
+//  Задание 2. Решение с помощью меток
 
 let num = 100;
 
