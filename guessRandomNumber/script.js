@@ -2,7 +2,7 @@ function guessRandomNumber() {
     let randomNumber = Math.floor(Math.random() * 100 + 1);
     let counter = 0;
     let maxTries = 10;
-    // console.log('Загаданное число ',randomNumber);
+    console.log('Загаданное число ', randomNumber);
 
     return function() {
         if (counter === 10) {
@@ -28,8 +28,8 @@ function guessRandomNumber() {
             counter++;
             alert(`Загаданное число больше, осталось попыток ${maxTries - counter}`);
             control();
-        } 
-        else if (userGuess === randomNumber) {
+        }
+        else {
             alert('Поздравляю, Вы угадали!!!');
         }
     }
