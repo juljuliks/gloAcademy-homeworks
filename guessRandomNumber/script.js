@@ -9,19 +9,16 @@ function guessRandomNumber() {
             console.log('Попытки закончились, хотите сыграть еще?');
             return;
         }
-
         let userGuess = prompt("Угадай число от 1 до 100");
-        // console.log('Догадка пользователя ',userGuess);
-
+        console.log('Догадка пользователя ',userGuess);
+        if (userGuess === null) {
+            console.log('До свидания!');
+            return;
+        }
         if (isNaN(userGuess) || userGuess.trim() === '') {
             console.log('Введите число!');
             control();
         } 
-
-        else if (userGuess === null) {
-            console.log('До свидания!');
-            return;
-        }
         else if (userGuess > randomNumber) {
             counter++;
             console.log(`Загаданное число меньше, осталось попыток ${maxTries - counter}`);
