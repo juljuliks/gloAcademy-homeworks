@@ -6,31 +6,31 @@ function guessRandomNumber() {
 
     return function() {
         if (counter === 10) {
-            console.log('Попытки закончились, хотите сыграть еще?');
+            alert('Попытки закончились, хотите сыграть еще?');
             return;
         }
         let userGuess = prompt("Угадай число от 1 до 100");
         // console.log('Догадка пользователя ',userGuess);
         if (userGuess === null) {
-            console.log('До свидания!');
+            alert('До свидания!');
             return;
         }
         if (isNaN(userGuess) || userGuess.trim() === '') {
-            console.log('Введите число!');
+            alert('Введите число!');
             control();
         } 
         else if (userGuess > randomNumber) {
             counter++;
-            console.log(`Загаданное число меньше, осталось попыток ${maxTries - counter}`);
+            alert(`Загаданное число меньше, осталось попыток ${maxTries - counter}`);
             control();
         } 
         else if (userGuess < randomNumber) {
             counter++;
-            console.log(`Загаданное число больше, осталось попыток ${maxTries - counter}`);
+            alert(`Загаданное число больше, осталось попыток ${maxTries - counter}`);
             control();
         } 
         else if (userGuess === randomNumber) {
-            console.log('Поздравляю, Вы угадали!!!');
+            alert('Поздравляю, Вы угадали!!!');
         }
     }
 }
