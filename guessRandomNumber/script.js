@@ -10,7 +10,7 @@ function guessRandomNumber() {
             return;
         }
         let userGuess = prompt("Угадай число от 1 до 100");
-        console.log('Догадка пользователя ',userGuess);
+        // console.log('Догадка пользователя ',userGuess);
         if (userGuess === null) {
             console.log('До свидания!');
             return;
