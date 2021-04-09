@@ -49,7 +49,10 @@ let appData = {
             appData.deposit = confirm('Есть ли у вас депозит в банке');
 
         for(let i = 0; i < 2; i++) {
-            appData.expenses[prompt('Введите обязательную статью расходов?')] = +prompt('Во сколько это обойдется?');
+            appData.expenses = appData.expenses[prompt('Введите обязательную статью расходов?')];
+            do {
+                appData.expenses = prompt('Во сколько это обойдется?');
+            } while (!isNumber(appData.expenses))
         }
     },
 
