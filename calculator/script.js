@@ -85,7 +85,6 @@ let appData = {
         }
     }
 };
-console.log(appData);
 appData.asking();
 appData.getExpensesMonth();
 appData.getBudget();
@@ -97,7 +96,7 @@ console.log(appData.displayNumOfMonth());
 console.log(appData.getStatusIncome());
 
 for(let key in appData) {
-    console.log(`Наша программа включает в себя данные: ${key} ; ${appData[key]}`);
+    console.log(`Наша программа включает в себя данные: ${key} : ${appData[key]}`);
 }
 
 
