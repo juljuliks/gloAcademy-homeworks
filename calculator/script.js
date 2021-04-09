@@ -91,7 +91,7 @@ appData.getBudget();
 appData.getTargetMonth();
 appData.getStatusIncome();
 
-console.log(appData.expenses);
+console.log('Расходы за месяц', appData.expenses);
 console.log(appData.displayNumOfMonth());
 console.log(appData.getStatusIncome());
 
