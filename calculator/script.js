@@ -23,13 +23,6 @@ let start = function() {
 
 start();
 
-let showTypeOf = function(data) {
-    console.log(`Тип данных ${data} - ${typeof(data)}`);
-};
-
-showTypeOf(money);
-showTypeOf(income);
-showTypeOf(deposit);
 console.log((addExpenses.toLowerCase()).split(','));
 
 function getExpensesMonth() {
