@@ -9,14 +9,13 @@ let isString = function(str) {
 };
 
 let money,
-    
     start = function() {
         do {
             money = prompt('Ваш месячный доход?', '100000');
         } while ( !isNumber(money) )
     };
     start();
-
+    
 let appData = {
     income: {},
     addIncome: [],
