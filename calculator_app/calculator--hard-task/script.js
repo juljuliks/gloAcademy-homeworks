@@ -1,20 +1,34 @@
-
-let renderDate = function(string) {
-    let div = document.createElement('div');
-    div.innerHTML = string;
-    document.body.appendChild(div);
-}
-
 function getFullDate() {
-let date = new Date(),
-    year = date.getFullYear(),
-    month = date.getMonth(),
-    dayOfMonth = date.getDate(),
-    dayOfWeek = date.getDay(),
-    hour = date.getHours(),
-    minutes = date.getMinutes(),
-    seconds = date.getSeconds();
+    let date = new Date(),
+        year = date.getFullYear(),
+        month = date.getMonth(),
+        dayOfMonth = date.getDate(),
+        dayOfWeek = date.getDay(),
+        hour = date.getHours(),
+        minutes = date.getMinutes(),
+        seconds = date.getSeconds();
+        
+        //
+        hourName = `${hour} ${declOfNum(hour, ['час', 'часа', 'часов'])}`;
+        minutesName = `${minutes} ${declOfNum(minutes, ['минута', 'минуты', 'минут'])}`;
+        secondsName = `${seconds} ${declOfNum(seconds, ['секунда', 'секунды', 'секунд'])}`
+        monthName = getMonthName();
+        newDayOfWeek = getDaysOfWeekRus();
     
+        let string = `Сегодня ${newDayOfWeek}, ${dayOfMonth} ${monthName} ${year} года, ${hourName} ${minutesName} ${secondsName}`;
+        checkDivExist();
+        renderDate(string);
+        
+        //
+        dayOfMonth = convertNumber(dayOfMonth);
+        month = convertNumber(month + 1);
+        hour = convertNumber(hour);
+        minutes = convertNumber(minutes);
+        seconds = convertNumber(seconds);
+    
+        let secondString = `${dayOfMonth}.${month}.${year} - ${hour}:${minutes}:${seconds}`;
+        renderDate(secondString);
+
     function getDaysOfWeekRus() {
         let dayName;
         let daysOfWeekRus = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресение'];
@@ -28,7 +42,7 @@ let date = new Date(),
         let monthName;
         let month = date.getMonth();
         let monthRus = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-        
+
         monthRus.forEach((el) => {
             monthName = monthRus[month];
             if (monthName === 'Март' || monthName === 'Август') {
@@ -47,40 +61,30 @@ let date = new Date(),
         ];
     }
 
-    hourName = `${hour} ${declOfNum(hour, ['час', 'часа', 'часов'])}`;
-    minutesName = `${minutes} ${declOfNum(minutes, ['минута', 'минуты', 'минут'])}`;
-    secondsName = `${seconds} ${declOfNum(seconds, ['секунда', 'секунды', 'секунд'])}`
-    monthName = getMonthName();
-    newDayOfWeek = getDaysOfWeekRus();
+    function renderDate(string) {
+        let div = document.createElement('div');
+        div.innerHTML = string;
+        document.body.appendChild(div);
+    }
 
-    let string = `Сегодня ${newDayOfWeek}, ${dayOfMonth} ${monthName} ${year} года, ${hourName} ${minutesName} ${secondsName}`;
-    renderDate(string)
+    function checkDivExist() {
+        let html = document.querySelectorAll('div');
+        console.log(html);
+        if (html !== undefined) {
+            html.forEach(elem => {
+                elem.remove();
+            });
+        }
+    }
 
     function convertNumber(num) {
         let prefix = '0';
         num = num.toString();
         if (num.length === 1) {
             num = `${prefix}${num}`;
-
         }
         return num;
     }
-
-    dayOfMonth = convertNumber(dayOfMonth);
-    month = convertNumber(month + 1);
-    hour = convertNumber(hour);
-    minutes = convertNumber(minutes);
-    seconds = convertNumber(seconds);
-
-    let string2 = `${dayOfMonth}.${month}.${year} - ${hour}:${minutes}:${seconds}`;
-    renderDate(string2);
 }
 
-getFullDate();
 setInterval(getFullDate, 1000);
-
-// let html = document.getElementsByTagName('div');
-// console.log(html);
-
-
-
