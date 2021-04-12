@@ -8,18 +8,20 @@ function getFullDate() {
         minutes = date.getMinutes(),
         seconds = date.getSeconds();
         
-        //
-        hourName = `${hour} ${declOfNum(hour, ['час', 'часа', 'часов'])}`;
-        minutesName = `${minutes} ${declOfNum(minutes, ['минута', 'минуты', 'минут'])}`;
-        secondsName = `${seconds} ${declOfNum(seconds, ['секунда', 'секунды', 'секунд'])}`
-        monthName = getMonthName();
+        // Преобразование строки в словестном формате 
+        // 'Сегодня Вторник, 4 февраля 2020 года, 21 час 5 минут 33 секунды' 
+        let hourName = `${hour} ${declOfNum(hour, ['час', 'часа', 'часов'])}`,
+        minutesName = `${minutes} ${declOfNum(minutes, ['минута', 'минуты', 'минут'])}`,
+        secondsName = `${seconds} ${declOfNum(seconds, ['секунда', 'секунды', 'секунд'])}`,
+        monthName = getMonthName(),
         newDayOfWeek = getDaysOfWeekRus();
     
         let string = `Сегодня ${newDayOfWeek}, ${dayOfMonth} ${monthName} ${year} года, ${hourName} ${minutesName} ${secondsName}`;
         checkDivExist();
         renderDate(string);
         
-        //
+        // Преобразование строки в числовом формате
+        // '04.02.2020 - 21:05:33' 
         dayOfMonth = convertNumber(dayOfMonth);
         month = convertNumber(month + 1);
         hour = convertNumber(hour);
@@ -69,7 +71,7 @@ function getFullDate() {
 
     function checkDivExist() {
         let html = document.querySelectorAll('div');
-        console.log(html);
+
         if (html !== undefined) {
             html.forEach(elem => {
                 elem.remove();
