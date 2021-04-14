@@ -177,7 +177,7 @@ let appData = {
 
     getTargetMonth: function getTargetMonth() {
         let result = Math.ceil(targetAmount.value / appData.budgetMonth);
-        result = (isNaN(result)) ? 0 : result;
+        result = (isNaN(result)) ? 'Срок' : result;
         return result;
     },
 
