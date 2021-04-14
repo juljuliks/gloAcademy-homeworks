@@ -62,7 +62,6 @@ let appData = {
     },
 
     calculate: function(event) {
-        event.stopPropagation();
         if(salaryAmount.value === '' || salaryAmount.value.trim() === '' || !isNumber(salaryAmount.value)) {
             alert('Ошибка, поле "Месячный доход" должно быть заполнено');
             return;
@@ -149,7 +148,6 @@ let appData = {
                 appData.expenses[itemExpenses] = cashExpenses;
             }
         })
-        console.log(expensesItems.value);
     },
 
     getIncome: function() {
@@ -159,7 +157,7 @@ let appData = {
             if (itemIncome !== '' && cashIncome !== '') {
                 appData.income[itemIncome] = cashIncome;
             }
-            console.log(incomeItems.value);
+
         })
 
         for (let key in appData.income) {
