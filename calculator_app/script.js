@@ -21,7 +21,9 @@ let calculateBtn = document.getElementById('start'),
     expensesItems = document.querySelectorAll('.expenses-items'),
     additionalExpensesItem = document.querySelector('.additional_expenses-item'),
     targetAmount = document.querySelector('.target-amount'),
-    range = document.querySelector('.period-select');
+    range = document.querySelector('.period-select'),
+    letterInputs = document.querySelectorAll('[placeholder="Наименование"]'),
+    numbersInputs = document.querySelectorAll('[placeholder="Сумма"]');
 
 let isNumber = function(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -48,9 +50,7 @@ let appData = {
 
     start: function() {
         appData.budget = +salaryAmount.value;
-        console.log('salaryAmount.value', salaryAmount.value);
 
-        appData.calculate();
         appData.getExpenses();
         appData.getIncome();
 
@@ -104,6 +104,16 @@ let appData = {
 
     addExpensesBlock: function() {
         let cloneExpensesItem = expensesItems[0].cloneNode(true);
+        cloneExpensesItem.childNodes.forEach(el => {
+            el.value = '';
+            el.addEventListener('input', function(event) {
+                if (event.target.getAttribute('placeholder') === 'Наименование') {
+                    el.value = el.value.replace(/[^а-яА-Я]/, '');
+                } else if (event.target.getAttribute('placeholder') === 'Сумма') {
+                    el.value = el.value.replace(/[^\d]/g, '');
+                }
+            });
+        });
         expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
         expensesItems = document.querySelectorAll('.expenses-items');
         if (expensesItems.length == 3) {
@@ -113,6 +123,17 @@ let appData = {
 
     addIncomeBlock: function() {
         let cloneIncomeItem = incomeItems[0].cloneNode(true);
+        console.log(cloneIncomeItem.childNodes);
+        cloneIncomeItem.childNodes.forEach(el => {
+            el.value = '';
+            el.addEventListener('input', function(event) {
+                if (event.target.getAttribute('placeholder') === 'Наименование') {
+                    el.value = el.value.replace(/[^а-яА-Я]/, '');
+                } else if (event.target.getAttribute('placeholder') === 'Сумма') {
+                    el.value = el.value.replace(/[^\d]/g, '');
+                }
+            });
+        });
         incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
         incomeItems = document.querySelectorAll('.income-items');
         if (incomeItems.length == 3) {
@@ -127,8 +148,8 @@ let appData = {
             if (itemExpenses !== '' && cashExpenses !== '') {
                 appData.expenses[itemExpenses] = cashExpenses;
             }
-            console.log(appData.expenses);
         })
+        console.log(expensesItems.value);
     },
 
     getIncome: function() {
@@ -138,7 +159,7 @@ let appData = {
             if (itemIncome !== '' && cashIncome !== '') {
                 appData.income[itemIncome] = cashIncome;
             }
-            console.log(appData.income);
+            console.log(incomeItems.value);
         })
 
         for (let key in appData.income) {
@@ -203,6 +224,18 @@ let appData = {
 
     calcSavedMoney: function() {
         return appData.budgetMonth * appData.period;
+    },
+
+    validateNumberInputs: function() {
+        numbersInputs.forEach(el => {
+            el.value = el.value.replace(/[^\d]/g, '');
+        })
+    },
+
+    validateLetterInputs: function() {
+        letterInputs.forEach(el => {
+            el.value = el.value.replace(/[^а-яА-Я]/, '');
+        })
     }
 };
 
@@ -210,8 +243,16 @@ calculateBtn.addEventListener('click', appData.start);
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 range.addEventListener('input', appData.changePeriodAmount);
-calculateBtn.addEventListener('click', appData.calculate)
-console.log(appData);
+calculateBtn.addEventListener('click', appData.calculate);
+letterInputs.forEach(el => {
+    el.addEventListener('input', appData.validateLetterInputs);
+})
+numbersInputs.forEach(el => {
+    el.addEventListener('input', appData.validateNumberInputs);
+})
+additionalExpensesItem.addEventListener('input', function() {
+    additionalExpensesItem.value = additionalExpensesItem.value.replace(/[^а-яА-Я\,\ ]/, '');
+})
 
 // appData.getTargetMonth();
 // appData.getStatusIncome();
@@ -228,6 +269,3 @@ console.log(appData);
 // for(let key in appData) {
 //     console.log(`Наша программа включает в себя данные: ${key} : ${appData[key]}`);
 // }
-
-
-
