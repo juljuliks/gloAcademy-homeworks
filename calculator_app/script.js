@@ -168,7 +168,6 @@ let appData = {
     changePeriodAmount: function() {
         let periodAmount = document.querySelector('.period-amount');
         periodAmount.textContent = range.value;
-        appData.period = +range.value;
     },
 
     getBudget: function() {
@@ -177,7 +176,9 @@ let appData = {
     },
 
     getTargetMonth: function getTargetMonth() {
-        return Math.ceil(targetAmount.value / appData.budgetMonth);
+        let result = Math.ceil(targetAmount.value / appData.budgetMonth);
+        result = (isNaN(result)) ? 0 : result;
+        return result;
     },
 
     getExpensesMonth: function() {
@@ -221,7 +222,9 @@ let appData = {
     },
 
     calcSavedMoney: function() {
-        return appData.budgetMonth * appData.period;
+        let result = appData.budgetMonth * range.value;
+        result = (isNaN(result)) ? 0 : result;
+        return result;
     },
 
     validateNumberInputs: function() {
