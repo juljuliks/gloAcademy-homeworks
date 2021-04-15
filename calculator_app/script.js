@@ -74,14 +74,15 @@ let appData = {
         additionalExpensesItem.value = additionalExpensesItem.defaultValue;
         appData.start();
 
+        incomePlus.style.display = 'block';
+        expensesPlus.style.display = 'block';
+
         calculateBtn.style.display = 'block';
         cancelBtn.style.display = 'none'
 
         allInputElems.forEach(el => {
             el.removeAttribute('disabled')
         })
-        
-        
     },
 
     calculate: function(event) {
@@ -94,14 +95,17 @@ let appData = {
         allInputElems.forEach(el => {
             el.setAttribute('disabled', true);
         })
+     
+        incomePlus.style.display = 'none';
+        expensesPlus.style.display = 'none';
 
         calculateBtn.style.display = 'none';
         cancelBtn.style.display = 'block'
     },
 
     showResults: function() {
-        budgetMonthValue.value = this.budgetMonth;
-        budgetDayValue.value = this.budgetDay;
+        budgetMonthValue.value = (this.budgetMonth > 0) ? this.budgetMonth : 0;
+        budgetDayValue.value = (this.budgetDay > 0) ? this.budgetDay : 0;
         expensesMonthValue.value = this.expensesMonth;
         incomePeriodValue.value = this.calcSavedMoney();
         additionalExpensesValue.value = this.addExpenses.join(', ');
@@ -271,7 +275,7 @@ let appData = {
 
     calcSavedMoney: function() {
         let result = this.budgetMonth * range.value;
-        result = (isNaN(result)) ? 0 : result;
+        result = (isNaN(result) || result < 0) ? 0 : result;
         return result;
     },
 
@@ -288,7 +292,7 @@ let appData = {
     }
 };
 
-let bindFoo = function(foo) {
+function bindFoo(foo) {
     foo = foo.bind(appData);
     return foo;
 }
