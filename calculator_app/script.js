@@ -80,8 +80,7 @@ let appData = {
         allInputElems.forEach(el => {
             el.removeAttribute('disabled')
         })
-
-        appData.start();
+        
         
     },
 
@@ -142,19 +141,21 @@ let appData = {
                     el.value = el.value.replace(/[^а-яА-Я]/, '');
                 } else if (event.target.getAttribute('placeholder') === 'Сумма') {
                     el.value = el.value.replace(/[^\d]/g, '');
+                } if (appData.cancelClicked) {
+                    el.setAttribute('disabled', true);
                 }
             });
         });
+        calculateBtn.addEventListener('click', () => {
+                cloneExpensesItem.childNodes[1].setAttribute('disabled', true);
+                cloneExpensesItem.childNodes[3].setAttribute('disabled', true);
+        });
+        cancelBtn.addEventListener('click', () => {
+            cloneExpensesItem.childNodes[1].style.display = 'none';
+            cloneExpensesItem.childNodes[3].style.display = 'none';
+        })
         expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
         expensesItems = document.querySelectorAll('.expenses-items');
-        expensesItems.forEach(el => {
-            el.addEventListener('input', (event) => {
-                // console.log(event.target);
-                if (appData.calculateClicked) {
-                    event.target.setAttribute('disabled', true)
-                }
-            });
-        });
         if (expensesItems.length == 3) {
             expensesPlus.style.display = 'none';
         }
@@ -172,13 +173,15 @@ let appData = {
                     el.value = el.value.replace(/[^\d]/g, '');
                 }
             });
-            el.addEventListener('input', function(event) {
-                // console.log(event.target);
-                if (appData.calculateClicked) {
-                    event.target.setAttribute('disabled', true)
-                }
-            })
         });
+        calculateBtn.addEventListener('click', () => {
+                cloneIncomeItem.childNodes[1].setAttribute('disabled', true);
+                cloneIncomeItem.childNodes[3].setAttribute('disabled', true);
+        });
+        cancelBtn.addEventListener('click', () => {
+            cloneIncomeItem.childNodes[1].style.display = 'none';
+            cloneIncomeItem.childNodes[3].style.display = 'none';
+        })
         incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
         incomeItems = document.querySelectorAll('.income-items');
         if (incomeItems.length == 3) {
