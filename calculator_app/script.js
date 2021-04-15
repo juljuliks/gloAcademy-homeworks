@@ -149,7 +149,7 @@ let appData = {
         expensesItems = document.querySelectorAll('.expenses-items');
         expensesItems.forEach(el => {
             el.addEventListener('input', (event) => {
-                console.log(event.target);
+                // console.log(event.target);
                 if (appData.calculateClicked) {
                     event.target.setAttribute('disabled', true)
                 }
@@ -173,7 +173,7 @@ let appData = {
                 }
             });
             el.addEventListener('input', function(event) {
-                console.log(event.target);
+                // console.log(event.target);
                 if (appData.calculateClicked) {
                     event.target.setAttribute('disabled', true)
                 }
