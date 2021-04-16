@@ -23,9 +23,11 @@ let calculateBtn = document.getElementById('start'),
     additionalExpensesItem = document.querySelector('.additional_expenses-item'),
     targetAmount = document.querySelector('.target-amount'),
     range = document.querySelector('.period-select'),
+    periodAmount = document.querySelector('.period-amount'),
     letterInputs = document.querySelectorAll('[placeholder="Наименование"]'),
     numbersInputs = document.querySelectorAll('[placeholder="Сумма"]'),
-    allInputElems = document.querySelectorAll('[type="text"]');
+    allInputElems = document.querySelectorAll('[type="text"]'),
+    depositCheckmark = depositCheck.querySelector('.deposit-checkmark');
 
 let isNumber = function(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -49,10 +51,9 @@ let appData = {
     persentDeposit: 0,
     moneyDeposit: 0,
     targetMonth: 0,
-    calculateClicked: false,
-    cancelClicked: false,
 
     start: function() {
+        console.log(this);
         this.budget = +salaryAmount.value;
         this.getExpenses();
         this.getIncome();
@@ -64,11 +65,13 @@ let appData = {
     },
 
     reset: function() {
-        appData.cancelClicked = true;
         letterInputs.forEach(el => {
             el.value = el.defaultValue;
         });
         numbersInputs.forEach(el => {
+            el.value = el.defaultValue;
+        });
+        allInputElems.forEach(el => {
             el.value = el.defaultValue;
         });
         additionalExpensesItem.value = additionalExpensesItem.defaultValue;
@@ -83,10 +86,14 @@ let appData = {
         allInputElems.forEach(el => {
             el.removeAttribute('disabled')
         })
+        
+        depositCheck.checked = false;
+        range.value = range.defaultValue;
+        periodAmount.textContent = '1';
+        appData.unshowResults();
     },
 
     calculate: function(event) {
-        appData.calculateClicked = true;
         if(salaryAmount.value === '' || salaryAmount.value.trim() === '' || !isNumber(salaryAmount.value)) {
             alert('Ошибка, поле "Месячный доход" должно быть заполнено');
             return;
@@ -101,6 +108,9 @@ let appData = {
 
         calculateBtn.style.display = 'none';
         cancelBtn.style.display = 'block'
+
+        depositCheck.setAttribute('disabled', true);
+        range.setAttribute('disabled', true);
     },
 
     showResults: function() {
@@ -115,6 +125,19 @@ let appData = {
         range.addEventListener('input', () => {
             incomePeriodValue.value = this.calcSavedMoney();
         });
+    },
+
+    unshowResults: function() {
+        allInputElems.forEach(el => {
+            el.setAttribute('disabled', true);
+        })
+        budgetMonthValue.value = budgetMonthValue.defaultValue;
+        budgetDayValue.value = budgetDayValue.defaultValue;
+        expensesMonthValue.value = '0';
+        incomePeriodValue.value = incomePeriodValue.defaultValue;
+        additionalExpensesValue.value = additionalExpensesValue.defaultValue;
+        additionalIncomeValue.value = additionalIncomeValue.defaultValue;
+        targetMonthValue.value = targetMonthValue.defaultValue;
     },
 
     getAddExpenses: function() {
@@ -218,7 +241,6 @@ let appData = {
     },
 
     changePeriodAmount: function() {
-        let periodAmount = document.querySelector('.period-amount');
         periodAmount.textContent = range.value;
     },
 
