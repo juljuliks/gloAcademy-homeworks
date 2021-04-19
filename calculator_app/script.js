@@ -60,8 +60,7 @@ class AppData {
         this.getExpInc();
         this.getExpensesMonth();
         this.getBudget();
-        // this.addExpIncBlock(expensesItems);
-        // this.addExpIncBlock(incomeItems);
+        // this.addExpIncBlock();
         this.getAddExpenses();
         this.getAddIncome();
         this.showResults();
@@ -210,7 +209,7 @@ class AppData {
     //     cloneItem.childNodes[1].style.display = 'none';
     //     cloneItem.childNodes[3].style.display = 'none';
     //     });
-    //     items[0].parentNode.insertBefore(cloneItem, incomePlus);
+    //     items[0].parentNode.append(cloneItem);
     //     items = document.querySelectorAll('.income-items');
     //     if (incomeItems.length == 3) {
     //         incomePlus.style.display = 'none';
