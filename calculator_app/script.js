@@ -68,10 +68,10 @@ class AppData {
         if (salaryAmount.value === '' || salaryAmount.value.trim() === '' || !isNumber(salaryAmount.value)) {
             alert('Ошибка, поле "Месячный доход" должно быть заполнено');
             return;
-        }
+        };
 
         allInputElems.forEach(el => {
-            el.setAttribute('disabled', true);
+            el.readOnly = true;
         });
 
         incomePlus.style.display = 'none';
@@ -85,18 +85,11 @@ class AppData {
     };
 
     reset = () => {
+        console.log(allInputElems);
         console.log(this);
-        letterInputs.forEach(el => {
-            el.removeAttribute('disabled');
-            el.value = el.defaultValue
-        });
-        numbersInputs.forEach(el => {
-            el.value = el.defaultValue
-            el.removeAttribute('disabled')
-        });
         allInputElems.forEach(el => {
-            el.value = el.defaultValue
-            el.removeAttribute('disabled')
+            el.value = el.defaultValue;
+            el.readOnly = false;
         });
         additionalExpensesItem[0].value = additionalExpensesItem[0].defaultValue;
 
@@ -130,9 +123,6 @@ class AppData {
     };
 
     unshowResults = () => {
-        allInputElems.forEach(el => {
-            el.setAttribute('disabled', true);
-        })
         budgetMonthValue.value = budgetMonthValue.defaultValue;
         budgetDayValue.value = budgetDayValue.defaultValue;
         expensesMonthValue.value = '0';
@@ -175,8 +165,8 @@ class AppData {
             });
         });
         calculateBtn.addEventListener('click', () => {
-            cloneItem.childNodes[1].setAttribute('disabled', true);
-            cloneItem.childNodes[3].setAttribute('disabled', true);
+            cloneItem.childNodes[1].readOnly = true;
+            cloneItem.childNodes[3].readOnly = true;
         });
         cancelBtn.addEventListener('click', () => {
             cloneItem.childNodes[1].style.display = 'none';
@@ -192,15 +182,11 @@ class AppData {
 
     getExpInc = () => {
         const count = item => {
-            console.log(item);
             const startStr = item.className.split('-')[0];
             const itemTitle = item.querySelector(`.${startStr}-title`).value;
-            console.log(itemTitle);
             const itemAmount = item.querySelector(`.${startStr}-amount`).value;
-            console.log(itemAmount);
             if (itemTitle !== '' && itemAmount !== '') {
                 this[startStr][itemTitle] = itemAmount;
-                console.log(this[startStr][itemTitle]);
             }
         }
 
