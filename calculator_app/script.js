@@ -51,7 +51,7 @@ class AppData {
         this.addIncome = [];
         this.expenses = {};
         this.addExpenses = [],
-            this.expensesMonth = 0;
+        this.expensesMonth = 0;
         this.deposit = false;
         this.persentDeposit = 0;
         this.moneyDeposit = 0;
@@ -302,7 +302,6 @@ class AppData {
     }
 
     addListeners = () => {
-        console.log(this);
         calculateBtn.addEventListener('click', this.start.bind(this));
         calculateBtn.addEventListener('click', this.calculate.bind(this));
         cancelBtn.addEventListener('click', this.reset.bind(this));
