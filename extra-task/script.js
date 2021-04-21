@@ -59,4 +59,3 @@ function displayDateInfo(deadline) {
     createMessage();
 }
 setInterval(displayDateInfo, 1000, '1 january 2022')
-displayDateInfo('1 january 2022')
