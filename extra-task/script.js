@@ -4,15 +4,14 @@ function displayDateInfo(deadline) {
 
 
     function getFullData() {
-        let hours = date.getHours(),
-            dayOfWeek = date.getDay(),
-            minutes = date.getMinutes(),
-            seconds = date.getSeconds(),
+        let dayOfWeek = date.getDay(),
+            hours = date.getHours(), 
+            time = date.toLocaleTimeString('en')
             dateNow = new Date().getTime(),
             dateStop = new Date(deadline).getTime(),
             daysTillNewYear = Math.floor(((dateStop - dateNow) / 1000) / 60 / 60 / 24);
 
-            return {dayOfWeek, hours, minutes, seconds, daysTillNewYear}
+            return {dayOfWeek, hours, time, daysTillNewYear}
     }
 
 
@@ -60,7 +59,7 @@ function displayDateInfo(deadline) {
 
         div.innerHTML = `<p>${createGreeting()}</p>
                           <p>Сегодня: ${getDaysOfWeekRus()}</p>
-                          <p>Текущее время: ${addPrefix(fullData.hours)}:${addPrefix(fullData.minutes)}:${addPrefix(fullData.seconds)}</p>
+                          <p>Текущее время: ${fullData.time}</p>
                           <p>До нового года осталось ${fullData.daysTillNewYear} ${declOfNum(fullData.daysTillNewYear, ['день', 'дня', 'дней'])}</p>`;
     }
     createMessage();
