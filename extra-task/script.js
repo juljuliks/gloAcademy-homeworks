@@ -1,3 +1,4 @@
+
 function displayDateInfo(deadline) {
     let div = document.querySelector('div'),
         date = new Date();
@@ -5,13 +6,18 @@ function displayDateInfo(deadline) {
 
     function getFullData() {
         let dayOfWeek = date.getDay(),
-            hours = date.getHours(), 
+            hours = date.getHours(),
             time = date.toLocaleTimeString('en')
-            dateNow = new Date().getTime(),
-            dateStop = new Date(deadline).getTime(),
+        dateNow = new Date().getTime(),
+            dateStop = new Date('1 january 2022').getTime(),
             daysTillNewYear = Math.floor(((dateStop - dateNow) / 1000) / 60 / 60 / 24);
 
-            return {dayOfWeek, hours, time, daysTillNewYear}
+        return {
+            dayOfWeek,
+            hours,
+            time,
+            daysTillNewYear
+        }
     }
 
 
@@ -48,14 +54,14 @@ function displayDateInfo(deadline) {
             ];
         }
 
-        function updateMessage() {
-            div.innerHTML = `<p>${createGreeting()}</p>
+        div.innerHTML = `<p>${createGreeting()}</p>
             <p>Сегодня: ${getDaysOfWeekRus()}</p>
             <p>Текущее время: ${fullData.time}</p>
             <p>До нового года осталось ${fullData.daysTillNewYear} ${declOfNum(fullData.daysTillNewYear, ['день', 'дня', 'дней'])}</p>`;
-        }
-        updateMessage()
+            if(fullData.daysTillNewYear > 0) {
+                setInterval(displayDateInfo, 1000)
+            }
     }
     createMessage();
 }
-setInterval(displayDateInfo, 1000, '1 january 2022')
+displayDateInfo()
