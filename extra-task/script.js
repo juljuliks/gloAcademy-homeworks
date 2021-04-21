@@ -21,13 +21,13 @@ function displayDateInfo(deadline) {
 
         function createGreeting() {
             let greeting;
-            if (fullData.hours > 8 || fullData.hours < 11) {
+            if (fullData.hours > 8 && fullData.hours < 11) {
                 greeting = 'Добрoe утро';
-            } else if (fullData.hours > 11 || fullData.hours < 17) {
+            } else if (fullData.hours < 17) {
                 greeting = 'Добрый день';
-            } else if (fullData.hours > 17 || fullData.hours < 23) {
+            } else if (fullData.hours < 23) {
                 greeting = 'Добрый вечер';
-            } else if (fullData.hours > 23 || fullData.hours < 9) {
+            } else if (fullData.hours > 23 && fullData.hours < 9) {
                 greeting = 'Доброй ночи';
             }
             return greeting;
@@ -56,6 +56,7 @@ function displayDateInfo(deadline) {
                           <p>Текущее время: ${addPrefix(fullData.hours)}:${addPrefix(fullData.minutes)}:${addPrefix(fullData.seconds)}</p>
                           <p>До нового года осталось ${fullData.daysTillNewYear} дня</p>`;
     }
-    createMessage()
+    createMessage();
 }
 setInterval(displayDateInfo, 1000, '1 january 2022')
+displayDateInfo('1 january 2022')
