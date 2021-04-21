@@ -41,15 +41,6 @@ function displayDateInfo(deadline) {
             return dayName;
         }
 
-        function addPrefix(num) {
-            let prefix = '0';
-            num = num.toString();
-            if (num.length === 1) {
-                num = `${prefix}${num}`;
-            }
-            return num;
-        }
-
         function declOfNum(number, names) {
             let cases = [2, 0, 1, 1, 1, 2];
             return names[
@@ -57,10 +48,13 @@ function displayDateInfo(deadline) {
             ];
         }
 
-        div.innerHTML = `<p>${createGreeting()}</p>
-                          <p>Сегодня: ${getDaysOfWeekRus()}</p>
-                          <p>Текущее время: ${fullData.time}</p>
-                          <p>До нового года осталось ${fullData.daysTillNewYear} ${declOfNum(fullData.daysTillNewYear, ['день', 'дня', 'дней'])}</p>`;
+        function updateMessage() {
+            div.innerHTML = `<p>${createGreeting()}</p>
+            <p>Сегодня: ${getDaysOfWeekRus()}</p>
+            <p>Текущее время: ${fullData.time}</p>
+            <p>До нового года осталось ${fullData.daysTillNewYear} ${declOfNum(fullData.daysTillNewYear, ['день', 'дня', 'дней'])}</p>`;
+        }
+        updateMessage()
     }
     createMessage();
 }
