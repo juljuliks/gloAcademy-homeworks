@@ -59,7 +59,9 @@ function displayDateInfo(deadline) {
             <p>Текущее время: ${fullData.time}</p>
             <p>До нового года осталось ${fullData.daysTillNewYear} ${declOfNum(fullData.daysTillNewYear, ['день', 'дня', 'дней'])}</p>`;
             if(fullData.daysTillNewYear > 0) {
-                setInterval(displayDateInfo, 1000)
+                let intervalId = setInterval(displayDateInfo, 1000)
+            } else {
+                clearInterval(intervalId);
             }
     }
     createMessage();
