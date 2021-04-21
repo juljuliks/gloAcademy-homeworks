@@ -51,10 +51,17 @@ function displayDateInfo(deadline) {
             return num;
         }
 
+        function declOfNum(number, names) {
+            let cases = [2, 0, 1, 1, 1, 2];
+            return names[
+                (number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]
+            ];
+        }
+
         div.innerHTML = `<p>${createGreeting()}</p>
                           <p>Сегодня: ${getDaysOfWeekRus()}</p>
                           <p>Текущее время: ${addPrefix(fullData.hours)}:${addPrefix(fullData.minutes)}:${addPrefix(fullData.seconds)}</p>
-                          <p>До нового года осталось ${fullData.daysTillNewYear} дня</p>`;
+                          <p>До нового года осталось ${fullData.daysTillNewYear} ${declOfNum(fullData.daysTillNewYear, ['день', 'дня', 'дней'])}</p>`;
     }
     createMessage();
 }
