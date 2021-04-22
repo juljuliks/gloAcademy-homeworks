@@ -82,7 +82,7 @@ window.addEventListener('DOMContentLoaded', function () {
             const animateModal = () => {
                 animate = requestAnimationFrame(animateModal)
                 count+=3;
-                if(count <= 40) {
+                if(count <= 45) {
                     popupContent.style.left = count + '%';
                     return;
                 } else {
@@ -117,7 +117,8 @@ window.addEventListener('DOMContentLoaded', function () {
         portfolio = document.querySelector('#portfolio'),
         calc = document.querySelector('#calc'),
         team = document.querySelector('#command'),
-        connect = document.querySelector('#connect');
+        connect = document.querySelector('#connect'),
+        img = document.querySelector('#scrollImg');
 
         function scrollTo(target) {
             window.scroll({
@@ -126,6 +127,11 @@ window.addEventListener('DOMContentLoaded', function () {
                 behavior: 'smooth'
             });
         };
+
+        img.addEventListener('click', (e) => {
+            e.preventDefault()
+            scrollTo(serviceBlock);
+        });
 
         menuItems.forEach((el) => {
             el.addEventListener('click', (e) => {
