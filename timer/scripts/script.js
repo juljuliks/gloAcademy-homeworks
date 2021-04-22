@@ -97,7 +97,7 @@ window.addEventListener('DOMContentLoaded', function () {
                     animate = requestAnimationFrame(animateModal);
                     count = 0;
                 } else {
-                    popupContent.style.left = '32%';
+                    popupContent.style.left = '28%';
                     cancelAnimationFrame(animate);
                 }
             });
