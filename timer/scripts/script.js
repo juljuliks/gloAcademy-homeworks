@@ -76,28 +76,36 @@ window.addEventListener('DOMContentLoaded', function () {
             popupClose = document.querySelector('.popup-close'),
             popupContent = document.querySelector('.popup-content');
 
+            let count = 0;
+            let animate;
+
+            const animateModal = () => {
+                animate = requestAnimationFrame(animateModal)
+                count+=2;
+                if(count <= 40) {
+                    popupContent.style.left = count + '%';
+                    return;
+                } else {
+                    cancelAnimationFrame(animate);
+                }
+            }
 
         popupBtn.forEach(el => {
             el.addEventListener('click', () => {
+                popUp.style.display = 'block';
                 if (screen.width > 768) {
-                    popUp.style.display = 'block';
-                    let start = Date.now();
-                    let timer = setInterval(function() {
-                        let timePassed = Date.now() - start;
-                        popupContent.style.left = timePassed / 5 + '%';
-                        if (timePassed >= 180) {
-                            clearInterval(timer);
-                        } 
-                    }, 20)
+                    animate = requestAnimationFrame(animateModal);
+                    count = 0;
                 } else {
-                    popUp.style.display = 'block';
                     popupContent.style.left = '32%';
+                    cancelAnimationFrame(animate);
                 }
             });
         });
 
         popupClose.addEventListener('click', () => {
             popUp.style.display = 'none';
+            popupContent.style.left = '0%';
         });
     };
     togglePopUp();
