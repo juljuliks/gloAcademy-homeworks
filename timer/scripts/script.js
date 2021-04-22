@@ -116,26 +116,26 @@ window.addEventListener('DOMContentLoaded', function () {
                 left: 0,
                 top: target.getBoundingClientRect().top,
                 behavior: 'smooth'
-            })
-        }
+            });
+        };
 
         menuItems.forEach((el) => {
             el.addEventListener('click', (e) => {
                 e.preventDefault();
                 const blockId = el.getAttribute('href');
                 if (blockId === '#service-block') {
-                    scrollTo(serviceBlock)
+                    scrollTo(serviceBlock);
                 } else if (blockId === '#portfolio') {
                     scrollTo(portfolio);
                 } else if (blockId === '#calc') {
-                    scrollTo(calc)
+                    scrollTo(calc);
                 } else if (blockId === '#command') {
-                    scrollTo(team)
+                    scrollTo(team);
                 } else if (blockId === '#connect') {
-                    scrollTo(connect)
+                    scrollTo(connect);
                 }
-            })
-        })
+            });
+        });
     }
     scroll();
 });
