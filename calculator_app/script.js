@@ -78,6 +78,8 @@ class AppData {
         this.getAddExpInc(additionalIncomeItems);
         this.getAddExpInc(additionalExpensesItem);
         this.showResults();
+        this.addToStorage();
+        this.setCookie();
     }
 
     calculate() {
@@ -141,27 +143,26 @@ class AppData {
         });
     };
 
-    createCookie(key, value, path, domain, secure) {
-        let cookieStr = key + '=' + value;
-        const date = new Date(2022, 0, 1);
-        cookieStr += '; expires=' + date.toGMTString();
-
-        cookieStr += path ? '; path=' + path : '';
-        cookieStr += domain ? '; domain=' + domain : '';
-        cookieStr += secure ? ';secure' : '';
-
-        document.cookie = cookieStr;
-    };
-
     setCookie() {
-        this.createCookie('budgetMonthValue', this.budgetMonth);
-        this.createCookie('budgetDayValue', this.budgetDay);
-        this.createCookie('expensesMonthValue', this.expensesMonth);
-        this.createCookie('incomePeriodValue', this.calcSavedMoney());
-        this.createCookie('additionalExpensesValue', this.addExpenses.join(', '));
-        this.createCookie('additionalIncomeValue', this.addIncome.join(', '));
-        this.createCookie('targetMonthValue', this.getTargetMonth());
-        this.createCookie('isLoad', true);
+        const createCookie = (key, value, path, domain, secure) => {
+            let cookieStr = key + '=' + value;
+            const date = new Date(2022, 0, 1);
+            cookieStr += '; expires=' + date.toGMTString();
+    
+            cookieStr += path ? '; path=' + path : '';
+            cookieStr += domain ? '; domain=' + domain : '';
+            cookieStr += secure ? ';secure' : '';
+    
+            document.cookie = cookieStr;
+        };
+        createCookie('budgetMonthValue', this.budgetMonth);
+        createCookie('budgetDayValue', this.budgetDay);
+        createCookie('expensesMonthValue', this.expensesMonth);
+        createCookie('incomePeriodValue', this.calcSavedMoney());
+        createCookie('additionalExpensesValue', this.addExpenses.join(', '));
+        createCookie('additionalIncomeValue', this.addIncome.join(', '));
+        createCookie('targetMonthValue', this.getTargetMonth());
+        createCookie('isLoad', true);
     };
 
     addToStorage() {
@@ -358,10 +359,7 @@ class AppData {
     }
 
     addListeners = () => {
-        calculateBtn.addEventListener('click', () => {
-            this.start();
-            this.addToStorage();
-        });
+        calculateBtn.addEventListener('click', this.start.bind(this));
         calculateBtn.addEventListener('click', this.calculate.bind(this));
         cancelBtn.addEventListener('click', this.reset.bind(this));
         expensesPlus.addEventListener('click', () => {
