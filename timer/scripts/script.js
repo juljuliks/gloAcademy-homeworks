@@ -190,8 +190,6 @@ window.addEventListener('DOMContentLoaded', function () {
                 }
                 return;
             }
-
-            
         })
     }
     tabs()
