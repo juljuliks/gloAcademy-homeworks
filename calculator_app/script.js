@@ -129,7 +129,7 @@ class AppData {
                 incomeItems[i].style.display = 'none';
             }
         }
-        
+
         letterInputs.forEach(el => {
             el.value = el.defaultValue;
             el.readOnly = false;
@@ -296,10 +296,6 @@ class AppData {
                 }
             });
         });
-        // cancelBtn.addEventListener('click', () => {
-        //     cloneItem.childNodes[1].style.display = 'none';
-        //     cloneItem.childNodes[3].style.display = 'none';
-        // });
         items[0].parentNode.insertBefore(cloneItem, btn);
         items = document.querySelectorAll(`.${className}`);
         if (items.length == 3) {
@@ -426,6 +422,7 @@ class AppData {
             this.reset();
             clearInterval(interval);
         }
+        clearAndReset.bind(this);
     }
 
     addListeners = () => {
