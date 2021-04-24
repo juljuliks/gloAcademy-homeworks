@@ -77,6 +77,29 @@ class AppData {
     }
 
     disableInputs() {
+        let incomeItems = document.querySelectorAll('.income-title');
+        let expensesItems = document.querySelectorAll('.expenses-title');
+        let incomeAmount = document.querySelectorAll('.income-amount');
+        let expensesAmount = document.querySelectorAll('.expenses-amount');
+
+        incomeAmount.forEach(el => {
+            el.readOnly = true;
+        });
+
+        expensesAmount.forEach(el => {
+            el.readOnly = true;
+        });
+
+        incomeItems.forEach(el => {
+            el.readOnly = true;
+        });
+
+        expensesItems.forEach(el => {
+            el.readOnly = true;
+        });
+
+        console.log(expensesItems);
+        console.log(incomeItems);
         allInputElems.forEach(el => {
             el.readOnly = true;
         });
@@ -103,6 +126,31 @@ class AppData {
     }
 
     reset() {
+        let incomeItems = document.querySelectorAll('.income-title');
+        let expensesItems = document.querySelectorAll('.expenses-title');
+        let incomeAmount = document.querySelectorAll('.income-amount');
+        let expensesAmount = document.querySelectorAll('.expenses-amount');
+
+        incomeAmount.forEach(el => {
+            el.value = el.defaultValue;
+            el.readOnly = false;
+        });
+
+        expensesAmount.forEach(el => {
+            el.value = el.defaultValue;
+            el.readOnly = false;
+        });
+
+        incomeItems.forEach(el => {
+            el.value = el.defaultValue;
+            el.readOnly = false;
+        });
+
+        expensesItems.forEach(el => {
+            el.value = el.defaultValue;
+            el.readOnly = false;
+        });
+
         allInputElems.forEach(el => {
             el.value = el.defaultValue;
             el.readOnly = false;
@@ -258,10 +306,6 @@ class AppData {
                     el.value = el.value.replace(/[^\d]/g, '');
                 }
             });
-        });
-        calculateBtn.addEventListener('click', () => {
-            cloneItem.childNodes[1].readOnly = true;
-            cloneItem.childNodes[3].readOnly = true;
         });
         cancelBtn.addEventListener('click', () => {
             cloneItem.childNodes[1].style.display = 'none';
