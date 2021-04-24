@@ -169,14 +169,14 @@ class AppData {
             cookies[i] = cookies[i].split("=")[0].trim();
         }
         return cookies;
-    }
+    };
 
     deleteAllCookies() {
         let cookies = this.getAllCookies();
         for (let i = 0; i < cookies.length; i++) {
             appData.deleteCookie(cookies[i].split("=")[0]);
         }
-    }
+    };
 
     deleteCookie(cookieName) {
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 2020 00:00:00 UTC; path=/calculator_app;`;
@@ -214,8 +214,8 @@ class AppData {
             additionalExpensesValue.value = localStorage.getItem('additionalExpensesValue');
             targetMonthValue.value = localStorage.getItem('targetMonthValue');
             this.disableInputs();
-        }
-    }
+        };
+    };
 
     clearResults() {
         budgetMonthValue.value = budgetMonthValue.defaultValue;
@@ -241,9 +241,9 @@ class AppData {
                     if (el.value !== '') {
                         this.addExpenses.push(item);
                     }
-                })
-            }
-        })
+                });
+            };
+        });
     };
 
     addExpIncBlock = (items, btn) => {
@@ -271,7 +271,7 @@ class AppData {
         items = document.querySelectorAll(`.${className}`);
         if (items.length == 3) {
             btn.style.display = 'none';
-        }
+        };
     };
 
 
@@ -283,7 +283,7 @@ class AppData {
             if (itemTitle !== '' && itemAmount !== '') {
                 this[startStr][itemTitle] = itemAmount;
             }
-        }
+        };
 
         incomeItems = document.querySelectorAll('.income-items');
         expensesItems = document.querySelectorAll('.expenses-items');
@@ -292,11 +292,11 @@ class AppData {
 
         for (let key in this.income) {
             this.incomeMonth += +this.income[key];
-        }
+        };
 
         for (let key in this.expenses) {
             this.expensesMonth += +this.expenses[key];
-        }
+        };
     }
 
     changePeriodAmount() {
@@ -313,14 +313,6 @@ class AppData {
         let result = Math.ceil(targetAmount.value / this.budgetMonth);
         result = (isNaN(result)) ? 'Срок' : result;
         return result;
-    };
-
-    displayNumOfMonth() {
-        if (this.targetMonth < 0 || !isFinite(this.targetMonth)) {
-            console.log('Цель не будет достигнута');
-        } else {
-            console.log(`Цель будет достигнута через ${this.targetMonth} месяцев(-а)`);
-        }
     };
 
     getInfoDeposit() {
@@ -372,11 +364,11 @@ class AppData {
             this.deposit = false;
             depositBank.removeEventListener('change', this.changePersent)
         }
-    }
+    };
 
     cookiesWatcher() {
-        let interval = setInterval(function () {
-            let cookieArray = appData.getAllCookies();
+        let interval = setInterval(() => {
+            let cookieArray = this.getAllCookies();
             if (cookieArray.length > 1 || cookieArray == 0) {
                 if (cookieArray.length < 8) {
                     clearAndReset();
@@ -396,10 +388,9 @@ class AppData {
             } else clearInterval(interval);
         }, 1000)
 
-        function clearAndReset() {
-            console.log('reset');
-            appData.deleteAllCookies();
-            appData.reset();
+        const clearAndReset = () => {
+            this.deleteAllCookies();
+            this.reset();
             clearInterval(interval);
         }
     }
@@ -432,4 +423,3 @@ const appData = new AppData()
 appData.addListeners();
 appData.renderValuesFromStorage();
 appData.cookiesWatcher();
-console.log(document.cookie);
