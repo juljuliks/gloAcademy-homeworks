@@ -377,7 +377,7 @@ class AppData {
     cookiesWatcher() {
         let interval = setInterval(function () {
             let cookieArray = appData.getAllCookies();
-            if (cookieArray.length > 1) {
+            if (cookieArray.length > 1 || cookieArray == 0) {
                 if (cookieArray.length < 8) {
                     clearAndReset();
                     return;
@@ -437,3 +437,4 @@ const appData = new AppData()
 appData.addListeners();
 appData.renderValuesFromStorage();
 appData.cookiesWatcher();
+console.log(document.cookie);
