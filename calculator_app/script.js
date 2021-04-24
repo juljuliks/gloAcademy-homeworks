@@ -384,10 +384,7 @@ class AppData {
                 }
                 for (let a = 0; a < cookieArrayControl.length; a++) {
                     for (let b = 0; b < cookieArray.length; b++) {
-                        if (cookieArray[a] !== 'isLoad') {
-                            continue;
-                        }
-                        else if (cookieArrayControl[a] === cookieArray[b]) {
+                        if (cookieArrayControl[a] === cookieArray[b]) {
                             break;
                         }
                         if (b + 1 === cookieArray.length) {
@@ -408,9 +405,7 @@ class AppData {
     }
 
     addListeners = () => {
-        calculateBtn.addEventListener('click', () => {
-            this.start();
-        });
+        calculateBtn.addEventListener('click', this.start.bind(this));
         cancelBtn.addEventListener('click', this.reset.bind(this));
         expensesPlus.addEventListener('click', () => {
             this.addExpIncBlock(expensesItems, expensesPlus);
