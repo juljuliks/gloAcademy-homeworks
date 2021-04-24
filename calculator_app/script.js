@@ -115,7 +115,21 @@ class AppData {
     reset() {
         let letterInputs = document.querySelectorAll('[placeholder="Наименование"]'),
         numbersInputs = document.querySelectorAll('[placeholder="Сумма"]');
+        let expensesItems = document.querySelectorAll('.expenses-items'),
+        incomeItems = document.querySelectorAll('.income-items');
 
+        for(let i = 0; i < expensesItems.length; i++) {
+            if (i == 1 || i == 2) {
+                expensesItems[i].style.display = 'none';
+            }
+        }
+
+        for(let i = 0; i < incomeItems.length; i++) {
+            if (i == 1 || i == 2) {
+                incomeItems[i].style.display = 'none';
+            }
+        }
+        
         letterInputs.forEach(el => {
             el.value = el.defaultValue;
             el.readOnly = false;
@@ -282,10 +296,10 @@ class AppData {
                 }
             });
         });
-        cancelBtn.addEventListener('click', () => {
-            cloneItem.childNodes[1].style.display = 'none';
-            cloneItem.childNodes[3].style.display = 'none';
-        })
+        // cancelBtn.addEventListener('click', () => {
+        //     cloneItem.childNodes[1].style.display = 'none';
+        //     cloneItem.childNodes[3].style.display = 'none';
+        // });
         items[0].parentNode.insertBefore(cloneItem, btn);
         items = document.querySelectorAll(`.${className}`);
         if (items.length == 3) {
