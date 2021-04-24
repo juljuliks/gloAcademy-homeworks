@@ -33,8 +33,7 @@ const calculateBtn = document.getElementById('start'),
 let expensesItems = document.querySelectorAll('.expenses-items'),
     incomeItems = document.querySelectorAll('.income-items');
 
-let storageData = [];
-
+let storageData = [], cookieArrayControl = [];
 
 const isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -53,8 +52,8 @@ class AppData {
         this.incomeMonth = 0;
         this.addIncome = [];
         this.expenses = {};
-        this.addExpenses = [],
-            this.expensesMonth = 0;
+        this.addExpenses = [];
+        this.expensesMonth = 0;
         this.deposit = false;
         this.persentDeposit = 0;
         this.moneyDeposit = 0;
@@ -62,15 +61,19 @@ class AppData {
     }
 
     start() {
-        this.budget = +salaryAmount.value;
-        this.getExpInc();
-        this.getInfoDeposit();
-        this.getBudget();
-        this.getAddExpInc(additionalIncomeItems);
-        this.getAddExpInc(additionalExpensesItem);
-        this.showResults();
-        this.addToStorage();
-        this.setCookie();
+        if (this.checkSalaryAmount()) {
+            this.budget = +salaryAmount.value;
+            this.getExpInc();
+            this.getInfoDeposit();
+            this.getBudget();
+            this.getAddExpInc(additionalIncomeItems);
+            this.getAddExpInc(additionalExpensesItem);
+            this.showResults();
+            this.addToStorage();
+            this.setCookie();
+            this.cookiesWatcher();
+            this.disableInputs();
+        }
     }
 
     disableInputs() {
@@ -96,6 +99,7 @@ class AppData {
             alert('Введите корректное значение в поле проценты');
             return;
         }
+        return true;
     }
 
     reset() {
@@ -118,7 +122,6 @@ class AppData {
 
         depositCheck.removeAttribute('disabled');
         range.removeAttribute('disabled');
-        this.start();
         this.clearResults();
         localStorage.clear();
     };
@@ -148,15 +151,37 @@ class AppData {
 
             document.cookie = cookieStr;
         };
-        createCookie('budgetMonthValue', this.budgetMonth);
-        createCookie('budgetDayValue', this.budgetDay);
-        createCookie('expensesMonthValue', this.expensesMonth);
-        createCookie('incomePeriodValue', this.calcSavedMoney());
-        createCookie('additionalExpensesValue', this.addExpenses.join(', '));
-        createCookie('additionalIncomeValue', this.addIncome.join(', '));
-        createCookie('targetMonthValue', this.getTargetMonth());
+        createCookie('budgetMonthValue', budgetMonthValue.value);
+        createCookie('budgetDayValue', budgetDayValue.value);
+        createCookie('expensesMonthValue', expensesMonthValue.value);
+        createCookie('incomePeriodValue', incomePeriodValue.value);
+        createCookie('additionalExpensesValue', additionalExpensesValue.value);
+        createCookie('additionalIncomeValue', additionalIncomeValue.value);
+        createCookie('targetMonthValue', targetMonthValue.value);
         createCookie('isLoad', true);
+
+        cookieArrayControl = this.getAllCookies();
     };
+
+    getAllCookies() {
+        let cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            cookies[i] = cookies[i].split("=")[0].trim();
+        }
+        return cookies;
+    }
+
+    deleteAllCookies() {
+        let cookies = this.getAllCookies();
+        for (let i = 0; i < cookies.length; i++) {
+            appData.deleteCookie(cookies[i].split("=")[0]);
+        }
+    }
+
+    deleteCookie(cookieName) {
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 2020 00:00:00 UTC; path=/calculator_app;`;
+        console.log(document.cookie);
+    }
 
     addToStorage() {
         const pushToStorageArr = (currentInput, name) => {
@@ -363,18 +388,42 @@ class AppData {
         }
     }
 
-    addListeners = () => {
-        // browser.cookies.onChanged.addListener(function (changeInfo) {
-        //     console.log('Cookie changed: ' +
-        //         '\n * Cookie: ' + JSON.stringify(changeInfo.cookie) +
-        //         '\n * Cause: ' + changeInfo.cause +
-        //         '\n * Removed: ' + changeInfo.removed);
-        // });
+    cookiesWatcher() {
+        let interval = setInterval(function () {
+            let cookieArray = appData.getAllCookies();
+            if (cookieArray.length > 1) {
+                if (cookieArray.length < 8) {
+                    clearAndReset();
+                    return;
+                }
+                for (let a = 0; a < cookieArrayControl.length; a++) {
+                    for (let b = 0; b < cookieArray.length; b++) {
+                        if (cookieArray[a] !== 'isLoad') {
+                            continue;
+                        }
+                        else if (cookieArrayControl[a] === cookieArray[b]) {
+                            break;
+                        }
+                        if (b + 1 === cookieArray.length) {
+                            clearAndReset();
+                            return;
+                        }
+                    }
+                }
+            } else clearInterval(interval);
+        }, 1000)
 
+        function clearAndReset() {
+            console.log('reset');
+            appData.deleteAllCookies();
+            appData.reset();
+            clearInterval(interval);
+        }
+    }
+
+    addListeners = () => {
         calculateBtn.addEventListener('click', () => {
             this.start();
-            this.disableInputs();
-            this.checkSalaryAmount();
         });
         cancelBtn.addEventListener('click', this.reset.bind(this));
         expensesPlus.addEventListener('click', () => {
@@ -401,3 +450,4 @@ class AppData {
 const appData = new AppData()
 appData.addListeners();
 appData.renderValuesFromStorage();
+appData.cookiesWatcher();
