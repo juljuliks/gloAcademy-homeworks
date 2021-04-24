@@ -35,15 +35,6 @@ let expensesItems = document.querySelectorAll('.expenses-items'),
 
 let storageData = [];
 
-if(localStorage.getItem('budgetMonthValue')) {
-    budgetMonthValue.value = localStorage.getItem('budgetMonthValue');
-    budgetDayValue.value = localStorage.getItem('budgetDayValue');
-    expensesMonthValue.value = localStorage.getItem('expensesMonthValue');
-    incomePeriodValue.value = localStorage.getItem('incomePeriodValue');
-    additionalIncomeValue.value = localStorage.getItem('additionalIncomeValue');
-    additionalExpensesValue.value = localStorage.getItem('additionalExpensesValue');
-    targetMonthValue.value = localStorage.getItem('targetMonthValue');
-}
 
 const isNumber = function (n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -63,7 +54,7 @@ class AppData {
         this.addIncome = [];
         this.expenses = {};
         this.addExpenses = [],
-        this.expensesMonth = 0;
+            this.expensesMonth = 0;
         this.deposit = false;
         this.persentDeposit = 0;
         this.moneyDeposit = 0;
@@ -82,15 +73,7 @@ class AppData {
         this.setCookie();
     }
 
-    calculate() {
-        if (salaryAmount.value === '' || salaryAmount.value.trim() === '' || !isNumber(salaryAmount.value)) {
-            alert('Ошибка, поле "Месячный доход" должно быть заполнено');
-            return;
-        } else if (depositPercent.value < 0 || depositPercent.value > 100) {
-            alert('Введите корректное значение в поле проценты');
-            return;
-        }
-
+    disableInputs() {
         allInputElems.forEach(el => {
             el.readOnly = true;
         });
@@ -99,11 +82,21 @@ class AppData {
         expensesPlus.style.display = 'none';
 
         calculateBtn.style.display = 'none';
-        cancelBtn.style.display = 'block'
+        cancelBtn.style.display = 'block';
 
         depositCheck.setAttribute('disabled', true);
         range.setAttribute('disabled', true);
     };
+
+    checkSalaryAmount() {
+        if (salaryAmount.value === '' || salaryAmount.value.trim() === '' || !isNumber(salaryAmount.value)) {
+            alert('Ошибка, поле "Месячный доход" должно быть заполнено');
+            return;
+        } else if (depositPercent.value < 0 || depositPercent.value > 100) {
+            alert('Введите корректное значение в поле проценты');
+            return;
+        }
+    }
 
     reset() {
         allInputElems.forEach(el => {
@@ -148,11 +141,11 @@ class AppData {
             let cookieStr = key + '=' + value;
             const date = new Date(2022, 0, 1);
             cookieStr += '; expires=' + date.toGMTString();
-    
+
             cookieStr += path ? '; path=' + path : '';
             cookieStr += domain ? '; domain=' + domain : '';
             cookieStr += secure ? ';secure' : '';
-    
+
             document.cookie = cookieStr;
         };
         createCookie('budgetMonthValue', this.budgetMonth);
@@ -170,11 +163,11 @@ class AppData {
             const newData = {
                 value: currentInput.value
             }
-    
+
             if (currentInput.value) {
                 storageData.push(newData);
             }
-    
+
             localStorage.setItem(name, newData.value);
         };
         pushToStorageArr(budgetMonthValue, 'budgetMonthValue');
@@ -186,6 +179,18 @@ class AppData {
         pushToStorageArr(targetMonthValue, 'targetMonthValue');
     };
 
+    renderValuesFromStorage() {
+        if (localStorage.getItem('budgetMonthValue')) {
+            budgetMonthValue.value = localStorage.getItem('budgetMonthValue');
+            budgetDayValue.value = localStorage.getItem('budgetDayValue');
+            expensesMonthValue.value = localStorage.getItem('expensesMonthValue');
+            incomePeriodValue.value = localStorage.getItem('incomePeriodValue');
+            additionalIncomeValue.value = localStorage.getItem('additionalIncomeValue');
+            additionalExpensesValue.value = localStorage.getItem('additionalExpensesValue');
+            targetMonthValue.value = localStorage.getItem('targetMonthValue');
+            this.disableInputs();
+        }
+    }
 
     clearResults() {
         budgetMonthValue.value = budgetMonthValue.defaultValue;
@@ -359,8 +364,18 @@ class AppData {
     }
 
     addListeners = () => {
-        calculateBtn.addEventListener('click', this.start.bind(this));
-        calculateBtn.addEventListener('click', this.calculate.bind(this));
+        // browser.cookies.onChanged.addListener(function (changeInfo) {
+        //     console.log('Cookie changed: ' +
+        //         '\n * Cookie: ' + JSON.stringify(changeInfo.cookie) +
+        //         '\n * Cause: ' + changeInfo.cause +
+        //         '\n * Removed: ' + changeInfo.removed);
+        // });
+
+        calculateBtn.addEventListener('click', () => {
+            this.start();
+            this.disableInputs();
+            this.checkSalaryAmount();
+        });
         cancelBtn.addEventListener('click', this.reset.bind(this));
         expensesPlus.addEventListener('click', () => {
             this.addExpIncBlock(expensesItems, expensesPlus);
@@ -385,8 +400,4 @@ class AppData {
 
 const appData = new AppData()
 appData.addListeners();
-
-function bindFoo(foo) {
-    foo = foo.bind(appData);
-    return foo;
-}
+appData.renderValuesFromStorage();
