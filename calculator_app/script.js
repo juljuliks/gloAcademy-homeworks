@@ -305,7 +305,7 @@ class AppData {
 
     getBudget = () => {
         const monthDeposit = this.moneyDeposit * (this.persentDeposit / 100);
-        this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
+        this.budgetMonth = Math.floor(this.budget + this.incomeMonth - this.expensesMonth + monthDeposit);
         this.budgetDay = Math.floor(this.budgetMonth / 30);
     };
 
@@ -313,19 +313,6 @@ class AppData {
         let result = Math.ceil(targetAmount.value / this.budgetMonth);
         result = (isNaN(result)) ? 'Срок' : result;
         return result;
-    };
-
-
-    getStatusIncome() {
-        if (this.budgetDay >= 1200) {
-            return ('У вас высокий уровень дохода');
-        } else if (this.budgetDay >= 600) {
-            return ('У вас средний уровень дохода');
-        } else if (this.budgetDay < 600 && appData.budgetDay >= 0) {
-            return ('К сожалению у вас уровень дохода ниже среднего');
-        } else {
-            return ('Что-то пошло не так');
-        }
     };
 
     displayNumOfMonth() {
@@ -344,8 +331,7 @@ class AppData {
     };
 
     calcSavedMoney() {
-        let result = this.budgetMonth * range.value;
-        result = (isNaN(result) || result < 0) ? 0 : result;
+        let result = Math.floor(this.budgetMonth * range.value);
         return result;
     };
 
