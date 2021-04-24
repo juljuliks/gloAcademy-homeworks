@@ -25,7 +25,6 @@ const calculateBtn = document.getElementById('start'),
     letterInputs = document.querySelectorAll('[placeholder="Наименование"]'),
     numbersInputs = document.querySelectorAll('[placeholder="Сумма"]'),
     allInputElems = document.querySelectorAll('[type="text"]'),
-    depositCheckmark = depositCheck.querySelector('.deposit-checkmark'),
     depositBank = document.querySelector('.deposit-bank'),
     depositAmount = document.querySelector('.deposit-amount'),
     depositPercent = document.querySelector('.deposit-percent');
