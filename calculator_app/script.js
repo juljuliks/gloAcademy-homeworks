@@ -77,29 +77,17 @@ class AppData {
     }
 
     disableInputs() {
-        let incomeItems = document.querySelectorAll('.income-title');
-        let expensesItems = document.querySelectorAll('.expenses-title');
-        let incomeAmount = document.querySelectorAll('.income-amount');
-        let expensesAmount = document.querySelectorAll('.expenses-amount');
+        let letterInputs = document.querySelectorAll('[placeholder="Наименование"]'),
+        numbersInputs = document.querySelectorAll('[placeholder="Сумма"]');
 
-        incomeAmount.forEach(el => {
+        letterInputs.forEach(el => {
             el.readOnly = true;
         });
 
-        expensesAmount.forEach(el => {
+        numbersInputs.forEach(el => {
             el.readOnly = true;
         });
 
-        incomeItems.forEach(el => {
-            el.readOnly = true;
-        });
-
-        expensesItems.forEach(el => {
-            el.readOnly = true;
-        });
-
-        console.log(expensesItems);
-        console.log(incomeItems);
         allInputElems.forEach(el => {
             el.readOnly = true;
         });
@@ -126,27 +114,15 @@ class AppData {
     }
 
     reset() {
-        let incomeItems = document.querySelectorAll('.income-title');
-        let expensesItems = document.querySelectorAll('.expenses-title');
-        let incomeAmount = document.querySelectorAll('.income-amount');
-        let expensesAmount = document.querySelectorAll('.expenses-amount');
+        let letterInputs = document.querySelectorAll('[placeholder="Наименование"]'),
+        numbersInputs = document.querySelectorAll('[placeholder="Сумма"]');
 
-        incomeAmount.forEach(el => {
+        letterInputs.forEach(el => {
             el.value = el.defaultValue;
             el.readOnly = false;
         });
 
-        expensesAmount.forEach(el => {
-            el.value = el.defaultValue;
-            el.readOnly = false;
-        });
-
-        incomeItems.forEach(el => {
-            el.value = el.defaultValue;
-            el.readOnly = false;
-        });
-
-        expensesItems.forEach(el => {
+        numbersInputs.forEach(el => {
             el.value = el.defaultValue;
             el.readOnly = false;
         });
@@ -155,6 +131,7 @@ class AppData {
             el.value = el.defaultValue;
             el.readOnly = false;
         });
+
         additionalExpensesItem[0].value = additionalExpensesItem[0].defaultValue;
 
         depositBank.style.display = 'none';
@@ -228,7 +205,6 @@ class AppData {
 
     deleteCookie(cookieName) {
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 2020 00:00:00 UTC; path=/calculator_app;`;
-        console.log(document.cookie);
     }
 
     addToStorage() {
