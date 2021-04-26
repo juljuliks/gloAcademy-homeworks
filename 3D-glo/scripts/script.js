@@ -198,9 +198,22 @@ window.addEventListener('DOMContentLoaded', function () {
         const slider = document.querySelector('.portfolio-content'),
               slide = document.querySelectorAll('.portfolio-item'),
               btn = document.querySelectorAll('.portfolio-btn'),
-              dot = document.querySelectorAll('.dot');
+              portfolioDots = document.querySelector('.portfolio-dots');
               
-        let currentSlide = 0;
+        let currentSlide = 0,
+            interval, dot;
+
+        console.log(slide.length);
+
+        const createDots = () => {
+            for (let i = 0; i <= slide.length; i++) {
+                let li = document.createElement('li');
+                li.className = 'dot';
+                portfolioDots.append(li);
+            }
+            dot = document.querySelectorAll('.dot');
+        }
+        createDots();
 
         const prevSlide = (elem, index, strClass) => {
             elem[index].classList.remove(strClass);
@@ -211,6 +224,7 @@ window.addEventListener('DOMContentLoaded', function () {
         };
 
         const autoPlaySlide = () => {
+            
             prevSlide(slide, currentSlide, 'portfolio-item-active');
             prevSlide(dot, currentSlide, 'dot-active');
             currentSlide++;
@@ -221,20 +235,20 @@ window.addEventListener('DOMContentLoaded', function () {
             nextSlide(dot, currentSlide, 'dot-active');
         };
 
-        const startSlide = (time) => {
-            setInterval(autoPlaySlide, time)
+        const startSlide = (time = 2000) => {
+            interval = setInterval(autoPlaySlide, time);
         };
 
         const stopSlide = () => {
-            
+            clearInterval(interval);
         };
 
         slider.addEventListener('click', (event) => {
             event.preventDefault();
             let target = event.target;
 
-            if (target.matches('#arrow-right, #arrow-left, .dot')) {
-                console.log(1);
+            if (!target.matches('.portfolio-btn, .dot')) {
+                return;
             }
             prevSlide(slide, currentSlide, 'portfolio-item-active');
             prevSlide(dot, currentSlide, 'dot-active');
@@ -250,11 +264,30 @@ window.addEventListener('DOMContentLoaded', function () {
                     }
                 });
             }
+            if (currentSlide >= slide.length) {
+                currentSlide = 0;
+            } else if ( currentSlide < 0) {
+                currentSlide = slide.length - 1;
+            }
             nextSlide(slide, currentSlide, 'portfolio-item-active');
             nextSlide(dot, currentSlide, 'dot-active');
         });
 
-        startSlide(10000);
+        slider.addEventListener('mouseover', (event) => {
+            if (event.target.matches('.portfolio-btn') || 
+            event.target.matches('.dot')) {
+                stopSlide();
+            }
+        });
+
+        slider.addEventListener('mouseout', (event) => {
+            if (event.target.matches('.portfolio-btn') || 
+            event.target.matches('.dot')) {
+                startSlide();
+            }
+        });
+
+        startSlide(1500);
     };
     slider()
 });
