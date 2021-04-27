@@ -64,11 +64,19 @@ class Todo {
     handler(event) {
         if (event.target.matches('.todo-complete')) {
             if (event.target.closest('.todo-item')) {
-                this.completedItem(event.target.closest('.todo-item'));
+                this.completedItemAnimate(event.target.closest('.todo-item'));
+                setTimeout(() => {
+                    this.completedItem(event.target.closest('.todo-item'));
+                }, 300)
+                
             }
         } else if (event.target.matches('.todo-remove')) {
             if (event.target.closest('.todo-item')) {
-                this.deleteItem(event.target.closest('.todo-item'));
+                this.deleteItemAnimate(event.target.closest('.todo-item'));
+                setTimeout(() => {
+                    this.deleteItem(event.target.closest('.todo-item'));
+                }, 300);
+                
             }
         } else if (event.target.matches('.todo-edit')) {
             if (event.target.closest('.todo-item')) {
@@ -86,6 +94,23 @@ class Todo {
         this.render();
     };
 
+    deleteItemAnimate(item) {
+        let count = 0,
+        animate;
+
+        const animation = () => {
+            animate = requestAnimationFrame(animation)
+            count += 10;
+            if (count <= 110) {
+                item.style.left = count + '%';
+                return;
+            } else {
+                cancelAnimationFrame(animate);
+            }
+        }
+        animation()
+    };
+
     completedItem(item) {
         this.todoData.forEach(el => {
             if (item.key === el.key) {
@@ -93,6 +118,23 @@ class Todo {
             }
             this.render();
         })
+    };
+
+    completedItemAnimate(item) {
+        let count = 0,
+        animate;
+
+        const animation = () => {
+            animate = requestAnimationFrame(animation)
+            count += 10;
+            if (count <= 110) {
+                item.style.left = count + '%';
+                return;
+            } else {
+                cancelAnimationFrame(animate);
+            }
+        }
+        animation()
     };
 
     editItem(item) {
@@ -107,6 +149,7 @@ class Todo {
                 key: item.key
             });
             item.classList.toggle('todo-editing');
+            item.contentEditable = "false";
             this.addToStorage();
         }
     };
