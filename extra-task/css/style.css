@@ -221,6 +221,11 @@ body {
     content: 'Нет выполненых задач';
 }
 
+.todo-editing {
+    border: solid 2px black;
+    border-radius: 5px;
+}
+
 .todo:after,
 .todo-completed:after {
     width: 100%;

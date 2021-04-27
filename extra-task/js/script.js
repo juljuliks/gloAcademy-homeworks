@@ -42,6 +42,9 @@ class Todo {
 
     addTodo(event) {
         event.preventDefault();
+        if (this.input.value.trim() === '' || this.input.value === '') {
+            alert('Введите текст')
+        }
         if (this.input.value.trim()) {
             const newTodo = {
                 value: this.input.value,
@@ -49,6 +52,7 @@ class Todo {
                 key: this.generateKey(),
             };
             this.todoData.set(newTodo.key, newTodo)
+            this.input.value = '';
         }
         this.render();
     };
@@ -68,10 +72,9 @@ class Todo {
             }
         } else if (event.target.matches('.todo-edit')) {
             if (event.target.closest('.todo-item')) {
-                console.log((event.target.closest('.todo-item')));
-                this.editItem()
+                this.editItem(event.target.closest('.todo-item'));
+                // this.todoData.set(event.target.closest('.todo-item').key, event.target.closest('.todo-item').textContent.trim());
             }
-
         }
     };
 
@@ -82,7 +85,6 @@ class Todo {
             }
         })
         this.render();
-        // найти по ключу элемент и удалить из нью мап, вызвать рендер
     };
 
     completedItem(key) {
@@ -94,18 +96,26 @@ class Todo {
         })
     };
 
-    editItem() {
-        console.log('edited');
-        let allListItems = document.querySelectorAll('li');
-        allListItems.forEach(el => {
-            el.contentEditable = "true";
-        })
-        console.log(allListItems);
+    editItem(item) {
+        if (item.contentEditable != 'true') {
+            item.contentEditable = "true";
+            item.classList.toggle('todo-editing');
+            return;
+        } else {
+            this.todoData.set(item.key, {
+                value: item.textContent.trim(),
+                completed: this.todoData.get(item.key).completed,
+                key: item.key
+            });
+            item.classList.toggle('todo-editing');
+            this.addToStorage();
+        }
     };
 
     init() {
         this.form.addEventListener('submit', this.addTodo.bind(this));
-        document.querySelector('.todo-container').addEventListener('click', this.handler.bind(this))
+        window.addEventListener('click', this.handler.bind(this));
+
         this.render();
     };
 }
