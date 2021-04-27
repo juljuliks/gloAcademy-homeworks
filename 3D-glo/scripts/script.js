@@ -209,7 +209,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 portfolioDots.append(li);
             }
             dot = document.querySelectorAll('.dot');
-        }
+        };
         createDots();
 
         const prevSlide = (elem, index, strClass) => {
@@ -232,7 +232,7 @@ window.addEventListener('DOMContentLoaded', function () {
             nextSlide(dot, currentSlide, 'dot-active');
         };
 
-        const startSlide = (time = 2000) => {
+        const startSlide = (time = 1500) => {
             interval = setInterval(autoPlaySlide, time);
         };
 
