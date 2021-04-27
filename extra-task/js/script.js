@@ -7,18 +7,18 @@ class Todo {
         this.todoList = document.querySelector(todoList);
         this.todoCompleted = document.querySelector(todoCompleted);
         this.todoData = new Map(JSON.parse(localStorage.getItem('todoList')));
-    }
+    };
 
     addToStorage() {
         localStorage.setItem('todoList', JSON.stringify([...this.todoData]))
-    }
+    };
 
     render() {
         this.todoCompleted.textContent = '';
         this.todoList.textContent = '';
         this.todoData.forEach(this.createItem);
         this.addToStorage();
-    }
+    };
 
     createItem = (todo) => {
         const li = document.createElement('li');
@@ -38,7 +38,7 @@ class Todo {
         } else {
             this.todoList.append(li);
         }
-    }
+    };
 
     addTodo(event) {
         event.preventDefault();
@@ -51,11 +51,11 @@ class Todo {
             this.todoData.set(newTodo.key, newTodo)
         }
         this.render();
-    }
+    };
 
     generateKey() {
         return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    }
+    };
 
     handler(event) {
         if (event.target.matches('.todo-complete')) {
@@ -73,7 +73,7 @@ class Todo {
             }
 
         }
-    }
+    };
 
     deleteItem(key) {
         this.todoData.forEach((el, i) => {
@@ -83,7 +83,7 @@ class Todo {
         })
         this.render();
         // найти по ключу элемент и удалить из нью мап, вызвать рендер
-    }
+    };
 
     completedItem(key) {
         this.todoData.forEach(el => {
@@ -92,7 +92,7 @@ class Todo {
             }
             this.render();
         })
-    }
+    };
 
     editItem() {
         console.log('edited');
@@ -101,13 +101,13 @@ class Todo {
             el.contentEditable = "true";
         })
         console.log(allListItems);
-    }
+    };
 
     init() {
         this.form.addEventListener('submit', this.addTodo.bind(this));
         document.querySelector('.todo-container').addEventListener('click', this.handler.bind(this))
         this.render();
-    }
+    };
 }
 
 const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-completed');
