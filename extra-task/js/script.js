@@ -64,32 +64,31 @@ class Todo {
     handler(event) {
         if (event.target.matches('.todo-complete')) {
             if (event.target.closest('.todo-item')) {
-                this.completedItem(event.target.closest('.todo-item').key);
+                this.completedItem(event.target.closest('.todo-item'));
             }
         } else if (event.target.matches('.todo-remove')) {
             if (event.target.closest('.todo-item')) {
-                this.deleteItem(event.target.closest('.todo-item').key);
+                this.deleteItem(event.target.closest('.todo-item'));
             }
         } else if (event.target.matches('.todo-edit')) {
             if (event.target.closest('.todo-item')) {
                 this.editItem(event.target.closest('.todo-item'));
-                // this.todoData.set(event.target.closest('.todo-item').key, event.target.closest('.todo-item').textContent.trim());
             }
         }
     };
 
-    deleteItem(key) {
+    deleteItem(item) {
         this.todoData.forEach((el, i) => {
-            if (el.key === key) {
+            if (el.key === item.key) {
                 this.todoData.delete(i);
             }
         })
         this.render();
     };
 
-    completedItem(key) {
+    completedItem(item) {
         this.todoData.forEach(el => {
-            if (key === el.key) {
+            if (item.key === el.key) {
                 el.completed = !el.completed;
             }
             this.render();
