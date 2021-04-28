@@ -367,11 +367,21 @@ window.addEventListener('DOMContentLoaded', function () {
                 item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()).join(' ');
        }
 
-        formName.addEventListener('blur', (e) => {
+        formName.addEventListener('blur', () => {
             checkInputs(formName, /[^а-яА-ЯЁё\-\ ]/);
             trim(formName);
             formName.value = capitalize(formName)
-        })
+        });
+
+        formMessage.addEventListener('blur', () => {
+            checkInputs(formMessage, /[^а-яА-ЯЁё\-\ ]/);
+            trim(formMessage);
+        });
+
+        formEmail.addEventListener('blur', () => {
+            checkInputs(formEmail, /[^a-zA-Z\@\_\-\.\!\~\*\']/);
+            trim(formEmail);
+        });
 
         window.addEventListener('input', inputsHandler);
     }
