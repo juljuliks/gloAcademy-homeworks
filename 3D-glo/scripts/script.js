@@ -308,11 +308,10 @@ window.addEventListener('DOMContentLoaded', function () {
     imgChange()
 
     const validateInputs = () => {
-        const calc = document.querySelector('.calc'),
-              calcInputs = calc.querySelectorAll('[type=text]'),
-              formName = document.getElementById('form2-name'),
-              formMessage = document.getElementById('form2-message'),
-              formEmail = document.getElementById('form2-email');
+        const calcInputs = document.querySelectorAll('.calc-item'),
+              formName = document.querySelectorAll('[name=user_name]'),
+              formMessage = document.querySelectorAll('[name=user_message]'),
+              formEmail = document.querySelectorAll('[name=user_email]');
 
         const validateNumberInputs = () => {
             calcInputs.forEach(el => {
@@ -325,19 +324,19 @@ window.addEventListener('DOMContentLoaded', function () {
         };
 
         const inputsHandler = (e) => {
-            if (e.target.matches('[type=text]')) {
-                validateNumberInputs()
+            if (e.target.matches('.calc-item ')) {
+                validateNumberInputs();
             }
-            if (e.target.matches('#form2-name')) {
-                validateLetterInputs(e.target)
+            if (e.target.matches('[name=user_name]')) {
+                validateLetterInputs(e.target);
             }
             if (e.target.matches('#form2-message')) {
                 validateLetterInputs(e.target);
             }
-            if (e.target.matches('#form2-email')) {
+            if (e.target.matches('[name=user_email]')) {
                 e.target.value = e.target.value.replace(/[^a-zA-Z\@\_\-\.\!\~\*\']/, '');
             }
-            if (e.target.matches('#form2-phone')) {
+            if (e.target.matches('[type=tel]')) {
                 e.target.value = e.target.value.replace(/[^\d\(\)\-]/g, '');
             }
         }
@@ -367,21 +366,27 @@ window.addEventListener('DOMContentLoaded', function () {
                 item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()).join(' ');
        }
 
-        formName.addEventListener('blur', () => {
-            checkInputs(formName, /[^а-яА-ЯЁё\-\ ]/);
-            trim(formName);
-            formName.value = capitalize(formName)
-        });
+        formName.forEach(el => {
+            el.addEventListener('blur', () => {
+                checkInputs(el, /[^а-яА-ЯЁё\-\ ]/);
+                trim(el);
+                el.value = capitalize(el)
+            })
+        })
 
-        formMessage.addEventListener('blur', () => {
-            checkInputs(formMessage, /[^а-яА-ЯЁё\-\ ]/);
-            trim(formMessage);
-        });
+        formMessage.forEach(el => {
+            el.addEventListener('blur', () => {
+                checkInputs(el, /[^а-яА-ЯЁё\-\ ]/);
+                trim(el);
+            })
+        })
 
-        formEmail.addEventListener('blur', () => {
-            checkInputs(formEmail, /[^a-zA-Z\@\_\-\.\!\~\*\']/);
-            trim(formEmail);
-        });
+        formEmail.forEach(el => {
+            el.addEventListener('blur', () => {
+                checkInputs(el, /[^a-zA-Z\@\_\-\.\!\~\*\']/);
+                trim(el);
+            })
+        })
 
         window.addEventListener('input', inputsHandler);
     }
