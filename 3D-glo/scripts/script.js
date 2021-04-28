@@ -362,15 +362,15 @@ window.addEventListener('DOMContentLoaded', function () {
         }
 
         function capitalize(input) {
-            input.value = input.value.replace(/(^|\s)\S/g, (a) => {
-                return a.toUpperCase()
-            });
-        }
+            let inputValue = input.value
+            return inputValue.split(' ').map(item => 
+                item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()).join(' ');
+       }
 
         formName.addEventListener('blur', (e) => {
             checkInputs(formName, /[^а-яА-ЯЁё\-\ ]/);
             trim(formName);
-            capitalize(formName)
+            formName.value = capitalize(formName)
         })
 
         window.addEventListener('input', inputsHandler);
