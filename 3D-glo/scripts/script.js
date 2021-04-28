@@ -324,7 +324,7 @@ window.addEventListener('DOMContentLoaded', function () {
         };
 
         const inputsHandler = (e) => {
-            if (e.target.matches('.calc-item ')) {
+            if (e.target.matches('.calc-item')) {
                 validateNumberInputs();
             }
             if (e.target.matches('[name=user_name]')) {
