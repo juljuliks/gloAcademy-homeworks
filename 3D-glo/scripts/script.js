@@ -320,7 +320,7 @@ window.addEventListener('DOMContentLoaded', function () {
         };
 
         const validateLetterInputs = (input) => {
-            input.value = input.value.replace(/[^а-яА-ЯЁё\-\ ]/, '');
+            input.value = input.value.replace(/[^а-яё\-\ ]/gi, '');
         };
 
         const inputsHandler = (e) => {
@@ -334,7 +334,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 validateLetterInputs(e.target);
             }
             if (e.target.matches('[name=user_email]')) {
-                e.target.value = e.target.value.replace(/[^a-zA-Z\@\_\-\.\!\~\*\']/, '');
+                e.target.value = e.target.value.replace(/[^a-z\@\_\-\.\!\~\*\']/gi, '');
             }
             if (e.target.matches('[type=tel]')) {
                 e.target.value = e.target.value.replace(/[^\d\(\)\-]/g, '');
@@ -368,7 +368,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
         formName.forEach(el => {
             el.addEventListener('blur', () => {
-                checkInputs(el, /[^а-яА-ЯЁё\-\ ]/);
+                checkInputs(el, /[^а-яё\-\ ]/gi);
                 trim(el);
                 el.value = capitalize(el)
             })
@@ -376,14 +376,14 @@ window.addEventListener('DOMContentLoaded', function () {
 
         formMessage.forEach(el => {
             el.addEventListener('blur', () => {
-                checkInputs(el, /[^а-яА-ЯЁё\-\ ]/);
+                checkInputs(el, /[^а-яё\-\ ]/gi);
                 trim(el);
             })
         })
 
         formEmail.forEach(el => {
             el.addEventListener('blur', () => {
-                checkInputs(el, /[^a-zA-Z\@\_\-\.\!\~\*\']/);
+                checkInputs(el, /[^a-z\@\_\-\.\!\~\*\']/gi);
                 trim(el);
             })
         })
