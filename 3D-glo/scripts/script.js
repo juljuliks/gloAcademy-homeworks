@@ -104,7 +104,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
         popUp.addEventListener('click', (event) => {
             let target = event.target;
-            if(target.classList.contains('popup-close')) {
+            if (target.classList.contains('popup-close')) {
                 popUp.style.display = 'none';
             } else {
                 target = target.closest('.popup-content');
@@ -179,8 +179,8 @@ window.addEventListener('DOMContentLoaded', function () {
         tabHeader.addEventListener('click', (event) => {
             let target = event.target;
             target = target.closest('.service-header-tab');
-            while(target !== tabHeader) {
-                
+            while (target !== tabHeader) {
+
                 if (target) {
                     tab.forEach((item, i) => {
                         if (item === target) {
@@ -196,9 +196,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const slider = () => {
         const slider = document.querySelector('.portfolio-content'),
-              slide = document.querySelectorAll('.portfolio-item'),
-              portfolioDots = document.querySelector('.portfolio-dots');
-              
+            slide = document.querySelectorAll('.portfolio-item'),
+            portfolioDots = document.querySelector('.portfolio-dots');
+
         let currentSlide = 0,
             interval, dot;
 
@@ -221,7 +221,7 @@ window.addEventListener('DOMContentLoaded', function () {
         };
 
         const autoPlaySlide = () => {
-            
+
             prevSlide(slide, currentSlide, 'portfolio-item-active');
             prevSlide(dot, currentSlide, 'dot-active');
             currentSlide++;
@@ -263,7 +263,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
             if (currentSlide >= slide.length) {
                 currentSlide = 0;
-            } else if ( currentSlide < 0) {
+            } else if (currentSlide < 0) {
                 currentSlide = slide.length - 1;
             }
             nextSlide(slide, currentSlide, 'portfolio-item-active');
@@ -271,15 +271,15 @@ window.addEventListener('DOMContentLoaded', function () {
         });
 
         slider.addEventListener('mouseover', (event) => {
-            if (event.target.matches('.portfolio-btn') || 
-            event.target.matches('.dot')) {
+            if (event.target.matches('.portfolio-btn') ||
+                event.target.matches('.dot')) {
                 stopSlide();
             }
         });
 
         slider.addEventListener('mouseout', (event) => {
-            if (event.target.matches('.portfolio-btn') || 
-            event.target.matches('.dot')) {
+            if (event.target.matches('.portfolio-btn') ||
+                event.target.matches('.dot')) {
                 startSlide();
             }
         });
@@ -287,4 +287,93 @@ window.addEventListener('DOMContentLoaded', function () {
         startSlide(1500);
     };
     slider()
+
+    const imgChange = () => {
+        const teamBlock = document.querySelector('.command'),
+            images = teamBlock.querySelectorAll('.command__photo');
+
+        images.forEach(img => {
+            let defaultImage;
+            img.addEventListener('mouseenter', (e) => {
+                defaultImage = e.target.src;
+                e.target.src = e.target.dataset.img;
+            });
+            img.addEventListener('mouseleave', (e) => {
+                e.target.src = defaultImage;
+            });
+        })
+
+
+    };
+    imgChange()
+
+    const validateInputs = () => {
+        const calc = document.querySelector('.calc'),
+              calcInputs = calc.querySelectorAll('[type=text]'),
+              formName = document.getElementById('form2-name'),
+              formMessage = document.getElementById('form2-message'),
+              formEmail = document.getElementById('form2-email');
+
+        const validateNumberInputs = () => {
+            calcInputs.forEach(el => {
+                el.value = el.value.replace(/[^\d]/g, '');
+            })
+        };
+
+        const validateLetterInputs = (input) => {
+            input.value = input.value.replace(/[^а-яА-ЯЁё\-\ ]/, '');
+        };
+
+        const inputsHandler = (e) => {
+            if (e.target.matches('[type=text]')) {
+                validateNumberInputs()
+            }
+            if (e.target.matches('#form2-name')) {
+                validateLetterInputs(e.target)
+            }
+            if (e.target.matches('#form2-message')) {
+                validateLetterInputs(e.target);
+            }
+            if (e.target.matches('#form2-email')) {
+                e.target.value = e.target.value.replace(/[^a-zA-Z\@\_\-\.\!\~\*\']/, '');
+            }
+            if (e.target.matches('#form2-phone')) {
+                e.target.value = e.target.value.replace(/[^\d\(\)\-]/g, '');
+            }
+        }
+
+        const checkInputs = (input, exp) => {
+            while (!!input.value.match(exp)) {
+                    input.value = input.value.replace(exp, '');
+            }
+        }
+
+        const trim = (input) => {
+            input.value = input.value.replace(/\s+/g, ' ');
+            input.value = input.value.replace(/\-+/g, '-');
+
+            let inputToExp = new RegExp("ReGeX" + input.value + "ReGeX");
+            if (/^[/ /-]/.test(inputToExp)) {
+                input.value = input.value.replace(/^[/ /-]/, '')
+            }
+            if(/[/ /-]$/.test(inputToExp)) {
+                input.value = input.value.replace(/[/ /-]$/, '')
+            }
+        }
+
+        function capitalize(input) {
+            input.value = input.value.replace(/(^|\s)\S/g, (a) => {
+                return a.toUpperCase()
+            });
+        }
+
+        formName.addEventListener('blur', (e) => {
+            checkInputs(formName, /[^а-яА-ЯЁё\-\ ]/);
+            trim(formName);
+            capitalize(formName)
+        })
+
+        window.addEventListener('input', inputsHandler);
+    }
+    validateInputs();
 });
