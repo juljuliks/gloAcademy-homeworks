@@ -308,10 +308,10 @@ window.addEventListener('DOMContentLoaded', function () {
     imgChange()
 
     const validateInputs = () => {
-        const calcInputs = document.querySelectorAll('.calc-item'),
-              formName = document.querySelectorAll('[name=user_name]'),
-              formMessage = document.querySelectorAll('[name=user_message]'),
-              formEmail = document.querySelectorAll('[name=user_email]');
+        const calcInputs = document.querySelectorAll('input.calc-item'),
+            formName = document.querySelectorAll('[name=user_name]'),
+            formMessage = document.querySelectorAll('[name=user_message]'),
+            formEmail = document.querySelectorAll('[name=user_email]');
 
         const validateNumberInputs = () => {
             calcInputs.forEach(el => {
@@ -343,7 +343,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
         const checkInputs = (input, exp) => {
             while (!!input.value.match(exp)) {
-                    input.value = input.value.replace(exp, '');
+                input.value = input.value.replace(exp, '');
             }
         }
 
@@ -355,16 +355,16 @@ window.addEventListener('DOMContentLoaded', function () {
             if (/^[/ /-]/.test(inputToExp)) {
                 input.value = input.value.replace(/^[/ /-]/, '')
             }
-            if(/[/ /-]$/.test(inputToExp)) {
+            if (/[/ /-]$/.test(inputToExp)) {
                 input.value = input.value.replace(/[/ /-]$/, '')
             }
         }
 
         function capitalize(input) {
             let inputValue = input.value
-            return inputValue.split(' ').map(item => 
+            return inputValue.split(' ').map(item =>
                 item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()).join(' ');
-       }
+        }
 
         formName.forEach(el => {
             el.addEventListener('blur', () => {
@@ -391,4 +391,45 @@ window.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('input', inputsHandler);
     }
     validateInputs();
+
+    const calc = (price = 100) => {
+        const calcBlock = document.querySelector('.calc-block'),
+            calcType = document.querySelector('.calc-type'),
+            calcSquare = document.querySelector('.calc-square'),
+            calcDay = document.querySelector('.calc-day'),
+            calcCount = document.querySelector('.calc-count'),
+            totslValue = document.getElementById('total');
+
+        const countSum = () => {
+            let total = 0,
+                countValue = 1,
+                dayValue = 1;
+            const typeValue = calcType.value,
+                squareValue = +calcSquare.value;
+
+            if (calcCount.value > 1) {
+                countValue += (calcCount.value - 1) / 10;
+            }
+
+            if(calcDay.value && calcDay.value < 5) {
+                dayValue *= 2;
+            } else if (calcDay.value && calcDay.value < 10) {
+                dayValue *= 1.5;
+            }
+
+            if (typeValue && squareValue) {
+                total = price * typeValue * squareValue * countValue * dayValue;
+            }
+
+            totslValue.textContent = total;
+        }
+
+        calcBlock.addEventListener('change', (event) => {
+            const target = event.target;
+            if (target.matches('select') || target.matches('input')) {
+                countSum();
+            }
+        })
+    }
+    calc(100);
 });
