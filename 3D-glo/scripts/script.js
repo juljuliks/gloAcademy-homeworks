@@ -50,7 +50,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         updateClock()
     };
-    countTimer('31 april 2021');
+    countTimer('21 april 2021');
 
     const toggleMenu = () => {
         const btnMenu = document.querySelector('.menu'),
