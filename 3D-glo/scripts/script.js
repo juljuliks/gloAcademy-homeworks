@@ -400,20 +400,20 @@ window.addEventListener('DOMContentLoaded', function () {
             calcDay = document.querySelector('.calc-day'),
             calcCount = document.querySelector('.calc-count'),
             totalValue = document.getElementById('total');
-        
-            let total = 0;
-            let timeout;
+
+        let total = 0;
+        let timeout;
+
         const countSum = () => {
             let countValue = 1,
                 dayValue = 1;
-                
+
             const typeValue = calcType.value,
                 squareValue = +calcSquare.value;
 
             if (calcCount.value > 1) {
                 countValue += (calcCount.value - 1) / 10;
             }
-
             if (calcDay.value && calcDay.value < 5) {
                 dayValue *= 2;
             } else if (calcDay.value && calcDay.value < 10) {
@@ -421,25 +421,23 @@ window.addEventListener('DOMContentLoaded', function () {
             }
             if (typeValue && squareValue) {
                 total = price * typeValue * squareValue * countValue * dayValue;
-                total = Math.floor(total)
-                totalValue.dataset.totalCount = Math.floor(total);
             }
-            animateTotal()
+            total = Math.floor(total);
         }
 
         const animateTotal = () => {
-            const target = +totalValue.getAttribute('data-total-count');
-            const count = +totalValue.innerText;
+            const target = total;
+            const count = +totalValue.textContent;
             const speed = 200;
 
             const inc = target / speed;
 
-            if(count < target) {
-                totalValue.innerHTML = Math.floor(count + inc);
-                timeout = setTimeout(animateTotal, 1);
+            if (count < target) {
+                totalValue.textContent = Math.floor(count + inc);
+                timeout = setTimeout(animateTotal, 5);
             } else {
                 totalValue.textContent = target;
-                clearTimeout(timeout)
+                clearTimeout(timeout);
             }
         }
 
@@ -447,18 +445,16 @@ window.addEventListener('DOMContentLoaded', function () {
             const target = event.target;
             if (target.matches('select') || target.matches('input')) {
                 countSum();
+                animateTotal();
             }
-
         });
 
         calcType.addEventListener('change', () => {
             calcInputs.forEach(el => {
                 el.value = '';
-                clearTimeout(timeout)
-                totalValue.dataset.totalCount = 0;
-                totalValue.textContent = 0;
             })
-        })
+            total = 0;
+        });
     }
     calc(100);
 });
