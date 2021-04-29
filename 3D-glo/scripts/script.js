@@ -450,9 +450,6 @@ window.addEventListener('DOMContentLoaded', function () {
         });
 
         calcType.addEventListener('change', () => {
-            calcInputs.forEach(el => {
-                el.value = '';
-            })
             total = 0;
         });
     }
