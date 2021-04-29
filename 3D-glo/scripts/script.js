@@ -50,7 +50,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
         updateClock()
     };
-    countTimer('23 april 2021');
+    countTimer('31 april 2021');
 
     const toggleMenu = () => {
         const btnMenu = document.querySelector('.menu'),
@@ -393,17 +393,19 @@ window.addEventListener('DOMContentLoaded', function () {
     validateInputs();
 
     const calc = (price = 100) => {
-        const calcBlock = document.querySelector('.calc-block'),
+        const calcInputs = document.querySelectorAll('input.calc-item'),
+            calcBlock = document.querySelector('.calc-block'),
             calcType = document.querySelector('.calc-type'),
             calcSquare = document.querySelector('.calc-square'),
             calcDay = document.querySelector('.calc-day'),
             calcCount = document.querySelector('.calc-count'),
-            totslValue = document.getElementById('total');
-
+            totalValue = document.getElementById('total');
+        
+            let total = 0
         const countSum = () => {
-            let total = 0,
-                countValue = 1,
+            let countValue = 1,
                 dayValue = 1;
+                
             const typeValue = calcType.value,
                 squareValue = +calcSquare.value;
 
@@ -411,17 +413,32 @@ window.addEventListener('DOMContentLoaded', function () {
                 countValue += (calcCount.value - 1) / 10;
             }
 
-            if(calcDay.value && calcDay.value < 5) {
+            if (calcDay.value && calcDay.value < 5) {
                 dayValue *= 2;
             } else if (calcDay.value && calcDay.value < 10) {
                 dayValue *= 1.5;
             }
-
             if (typeValue && squareValue) {
-                total = price * typeValue * squareValue * countValue * dayValue;
+                totalValue.dataset.totalCount = Math.floor(price * typeValue * squareValue * countValue * dayValue);
             }
+            animateTotal()
+        }
 
-            totslValue.textContent = total;
+        const animateTotal = () => {
+            const target = +totalValue.getAttribute('data-total-count');
+            const count = +totalValue.innerText;
+            const speed = 200;
+            let timeout;
+
+            const inc = target / speed;
+
+            if(count < target) {
+                totalValue.innerHTML = Math.floor(count + inc);
+                timeout = setTimeout(animateTotal, 1);
+            } else {
+                totalValue.textContent = target;
+                clearTimeout(timeout)
+            }
         }
 
         calcBlock.addEventListener('change', (event) => {
@@ -429,6 +446,15 @@ window.addEventListener('DOMContentLoaded', function () {
             if (target.matches('select') || target.matches('input')) {
                 countSum();
             }
+
+        });
+
+        calcType.addEventListener('change', () => {
+            calcInputs.forEach(el => {
+                el.value = '';
+                // totalValue.dataset.totalCount = 0;
+                totalValue.textContent = 0;
+            })
         })
     }
     calc(100);
