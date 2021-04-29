@@ -401,7 +401,8 @@ window.addEventListener('DOMContentLoaded', function () {
             calcCount = document.querySelector('.calc-count'),
             totalValue = document.getElementById('total');
         
-            let total = 0
+            let total = 0;
+            let timeout;
         const countSum = () => {
             let countValue = 1,
                 dayValue = 1;
@@ -419,7 +420,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 dayValue *= 1.5;
             }
             if (typeValue && squareValue) {
-                totalValue.dataset.totalCount = Math.floor(price * typeValue * squareValue * countValue * dayValue);
+                total = price * typeValue * squareValue * countValue * dayValue;
+                total = Math.floor(total)
+                totalValue.dataset.totalCount = Math.floor(total);
             }
             animateTotal()
         }
@@ -428,7 +431,6 @@ window.addEventListener('DOMContentLoaded', function () {
             const target = +totalValue.getAttribute('data-total-count');
             const count = +totalValue.innerText;
             const speed = 200;
-            let timeout;
 
             const inc = target / speed;
 
@@ -452,7 +454,8 @@ window.addEventListener('DOMContentLoaded', function () {
         calcType.addEventListener('change', () => {
             calcInputs.forEach(el => {
                 el.value = '';
-                // totalValue.dataset.totalCount = 0;
+                clearTimeout(timeout)
+                totalValue.dataset.totalCount = 0;
                 totalValue.textContent = 0;
             })
         })
