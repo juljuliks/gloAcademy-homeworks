@@ -20,7 +20,6 @@ class Validator {
         this.setPattern();
         this.elementsForm.forEach(el => el.addEventListener('change', this.checkIt.bind(this)));
         this.form.addEventListener('submit', (e) => {
-            e.preventDefault();
             this.elementsForm.forEach(el => this.checkIt({target: el}));
             if (this.error.size) {
                 e.preventDefault();
@@ -105,7 +104,7 @@ class Validator {
     setPattern() {
         this.pattern.phone = this.pattern.phone ? this.pattern.phone : /^\+?[78]([-()]*\d){10}$/;
         this.pattern.email = this.pattern.email ? this.pattern.email : /^\w+@\w+\.\w{2,}$/;
-        this.pattern.name = this.pattern.name ? this.pattern.name : /^[а-яё]*$/gi;
+        this.pattern.name = this.pattern.name ? this.pattern.name : /[а-яё]/gi;
         this.pattern.message = this.pattern.message ? this.pattern.message : /[а-яё\-\ \,\.\!\?]/gi;
     }
 }
