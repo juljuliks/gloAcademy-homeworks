@@ -81,7 +81,7 @@ window.addEventListener('DOMContentLoaded', function () {
         const animateModal = () => {
             animate = requestAnimationFrame(animateModal)
             count += 3;
-            if (count <= 45) {
+            if (count <= 43) {
                 popupContent.style.left = count + '%';
                 return;
             } else {
@@ -465,7 +465,7 @@ window.addEventListener('DOMContentLoaded', function () {
             form3 = document.getElementById('form3');
 
         const statusMessage = document.createElement('div');
-        statusMessage.style.cssText = 'font-size: 2rem;'
+        statusMessage.style.cssText = 'font-size: 2rem; color: #fff'
 
         const createRequest = (form) => {
             form.addEventListener('submit', (e) => {
