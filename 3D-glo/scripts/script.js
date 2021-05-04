@@ -311,7 +311,8 @@ window.addEventListener('DOMContentLoaded', function () {
         const calcInputs = document.querySelectorAll('input.calc-item'),
             formName = document.querySelectorAll('[name=user_name]'),
             formMessage = document.querySelectorAll('[name=user_message]'),
-            formEmail = document.querySelectorAll('[name=user_email]');
+            formEmail = document.querySelectorAll('[name=user_email]'),
+            formPhone = document.querySelectorAll('[name=user_phone]');
 
         const validateNumberInputs = () => {
             calcInputs.forEach(el => {
@@ -335,15 +336,10 @@ window.addEventListener('DOMContentLoaded', function () {
             }
             if (e.target.matches('[name=user_email]')) {
                 e.target.value = e.target.value.replace(/[^a-z\@\_\-\.\!\~\*\']/gi, '');
+                // /\w+@\w+\.\w{2,3}/gi
             }
-            if (e.target.matches('[type=tel]')) {
+            if (e.target.matches('[name=user_phone]')) {
                 e.target.value = e.target.value.replace(/[^\d\(\)\-\+]/g, '');
-            }
-        }
-
-        const checkInputs = (input, exp) => {
-            while (!!input.value.match(exp)) {
-                input.value = input.value.replace(exp, '');
             }
         }
 
@@ -360,31 +356,44 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        function capitalize(input) {
+        const capitalize = (input) => {
             let inputValue = input.value
             return inputValue.split(' ').map(item =>
                 item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()).join(' ');
         }
 
+        const controlInputs = (input, exp, message = 'Введите корректные данные') => {
+            if (!input.value.match(exp)) {
+                input.value = '';
+            } 
+        }
+
         formName.forEach(el => {
             el.addEventListener('blur', () => {
-                checkInputs(el, /[^а-яё\-\ ]/gi);
                 trim(el);
-                el.value = capitalize(el)
+                el.value = capitalize(el);
+                controlInputs(el, /[а-яё]{2,}/gi);
             })
         })
 
         formMessage.forEach(el => {
             el.addEventListener('blur', () => {
-                checkInputs(el, /[^а-яё0-9\.\,\:\-\!\? ]/gi);
+                controlInputs(el, /[^а-яё0-9\.\,\:\-\!\? ]/gi);
                 trim(el);
             })
         })
 
         formEmail.forEach(el => {
             el.addEventListener('blur', () => {
-                checkInputs(el, /[^a-z\@\_\-\.\!\~\*\']/gi);
+                controlInputs(el, /\w+@\w+\.\w{2,3}/g);
                 trim(el);
+            })
+        })
+
+        formPhone.forEach(el => {
+            el.addEventListener('blur', () => {
+                trim(el);
+                controlInputs(el, /\+?[78]([-()]*\d){10}/g);
             })
         })
 
@@ -457,7 +466,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const sendForm = () => {
         const errorMessage = 'Что-то пошло не так',
-            loadMessage = 'Загрузка...',
             succesMessage = 'Спасибо, мы скоро с вами свяжемся!';
 
         const form1 = document.getElementById('form1'),
@@ -465,13 +473,15 @@ window.addEventListener('DOMContentLoaded', function () {
             form3 = document.getElementById('form3');
 
         const statusMessage = document.createElement('div');
-        statusMessage.style.cssText = 'font-size: 2rem; color: #fff'
+        const circle = document.createElement('div');
+        circle.classList.add('circle');
+        statusMessage.style.cssText = 'font-size: 2rem; color: #fff';
 
         const createRequest = (form) => {
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 form.appendChild(statusMessage);
-                statusMessage.textContent = loadMessage;
+                form.appendChild(circle);
                 const formData = new FormData(form);
                 let body = {};
                 formData.forEach((val, key) => {
@@ -479,13 +489,23 @@ window.addEventListener('DOMContentLoaded', function () {
                 })
                 
                 postData(body, () => {
+                    document.querySelector('.circle').remove();
                     statusMessage.textContent = succesMessage;
+                    setTimeout(() => {
+                        statusMessage.innerHTML = '';
+                        document.querySelector('.popup').style.display = 'none';
+                    }, 2000)
                     let formInputs = form.querySelectorAll('input');
                     formInputs.forEach(input => {
                         input.value = input.defaultValue;
                     })
                 }, () => {
+                    document.querySelector('.circle').remove();
                     statusMessage.textContent = errorMessage;
+                    setTimeout(() => {
+                        statusMessage.innerHTML = '';
+                        document.querySelector('.popup').style.display = 'none';
+                    }, 2000)
                     console.error(error);
                 });
             });
@@ -494,7 +514,6 @@ window.addEventListener('DOMContentLoaded', function () {
         const postData = (body, outputData, errorData) => {
             const request = new XMLHttpRequest();
             request.addEventListener('readystatechange', () => {
-                // тут анимация
                 if (request.readyState !== 4) {
                     return;
                 }
