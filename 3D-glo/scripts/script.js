@@ -314,6 +314,8 @@ window.addEventListener('DOMContentLoaded', function () {
             formEmail = document.querySelectorAll('[name=user_email]'),
             formPhone = document.querySelectorAll('[name=user_phone]');
 
+        let error = new Set();
+
         const validateNumberInputs = () => {
             calcInputs.forEach(el => {
                 el.value = el.value.replace(/[^\d]/g, '');
@@ -329,14 +331,13 @@ window.addEventListener('DOMContentLoaded', function () {
                 validateNumberInputs();
             }
             if (e.target.matches('[name=user_name]')) {
-                validateLetterInputs(e.target);
+                e.target.value = e.target.value.replace(/[^а-яё\-\ ]/gi, '');
             }
             if (e.target.matches('#form2-message')) {
                 validateLetterInputs(e.target);
             }
             if (e.target.matches('[name=user_email]')) {
                 e.target.value = e.target.value.replace(/[^a-z\@\_\-\.\!\~\*\']/gi, '');
-                // /\w+@\w+\.\w{2,3}/gi
             }
             if (e.target.matches('[name=user_phone]')) {
                 e.target.value = e.target.value.replace(/[^\d\(\)\-\+]/g, '');
@@ -364,6 +365,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
         const controlInputs = (input, exp, message = 'Введите корректные данные') => {
             if (!input.value.match(exp)) {
+                error.add(input.value)
                 input.value = '';
             } 
         }
