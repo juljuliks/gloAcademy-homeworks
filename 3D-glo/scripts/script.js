@@ -490,45 +490,50 @@ window.addEventListener('DOMContentLoaded', function () {
                     body[key] = val;
                 })
                 
-                postData(body, () => {
-                    document.querySelector('.circle').remove();
-                    statusMessage.textContent = succesMessage;
-                    setTimeout(() => {
-                        statusMessage.innerHTML = '';
-                        document.querySelector('.popup').style.display = 'none';
-                    }, 2000)
-                    let formInputs = form.querySelectorAll('input');
-                    formInputs.forEach(input => {
-                        input.value = input.defaultValue;
+                postData(body)
+                    .then(() => {
+                        document.querySelector('.circle').remove();
+                        statusMessage.textContent = succesMessage;
+                        setTimeout(() => {
+                            statusMessage.innerHTML = '';
+                            document.querySelector('.popup').style.display = 'none';
+                        }, 2000)
+                        let formInputs = form.querySelectorAll('input');
+                        formInputs.forEach(input => {
+                            input.value = input.defaultValue;
+                        })
                     })
-                }, () => {
-                    document.querySelector('.circle').remove();
-                    statusMessage.textContent = errorMessage;
-                    setTimeout(() => {
-                        statusMessage.innerHTML = '';
-                        document.querySelector('.popup').style.display = 'none';
-                    }, 2000)
-                    console.error(error);
-                });
+                    .catch(() => {
+                        document.querySelector('.circle').remove();
+                        statusMessage.textContent = errorMessage;
+                        setTimeout(() => {
+                            statusMessage.innerHTML = '';
+                            document.querySelector('.popup').style.display = 'none';
+                        }, 2000)
+                        console.error(error);
+                    })
             });
         }
 
-        const postData = (body, outputData, errorData) => {
-            const request = new XMLHttpRequest();
-            request.addEventListener('readystatechange', () => {
-                if (request.readyState !== 4) {
-                    return;
-                }
-                if (request.status === 200) {
-                    outputData();
-                } else {
-                    errorData(request.status)
-                }
+        const postData = (body) => {
+            return new Promise((resolve, reject) => {
+                const request = new XMLHttpRequest();
+                request.addEventListener('readystatechange', () => {
+                    if (request.readyState !== 4) {
+                        return;
+                    }
+                    if (request.status === 200) {
+                        resolve()
+                    } else {
+                        reject()
+                    }
+                })
+                request.open('POST', './server.php');
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.send(JSON.stringify(body));
             })
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.send(JSON.stringify(body));
         }
+
         createRequest(form1); 
         createRequest(form2); 
         createRequest(form3);
