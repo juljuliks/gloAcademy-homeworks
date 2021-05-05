@@ -1,48 +1,34 @@
-document.addEventListener('DOMContentLoaded', () => {
-    'use strict';
+let rates = {};
+let a, b;
 
-    const select = document.getElementById('cars'),
-        output = document.getElementById('output');
+const usdBlock = document.querySelector('[data-value="USD"]');
+const eurBlock = document.querySelector('[data-value="EUR"]');
+const select = document.querySelectorAll('select.form-control')
+const select1 = select[0];
+const select2 = select[1];
+const result = document.querySelector('#result');
+const input = document.querySelector('#input');
 
-        const getData = () => {
-            return new Promise((resolve, reject) => {
-                const request = new XMLHttpRequest();
-                request.addEventListener('readystatechange', () => {
-                    if (request.readyState !== 4) {
-                        return;
-                    }
-                    if (request.status === 200) {
-                        let data = JSON.parse(request.responseText)
-                        resolve(data)
-                    }
-                    else {
-                        let reason = request.readyState
-                        reject(reason)
-                    }
-                });
-                request.open('GET', './cars.json', true);
-                request.setRequestHeader('Content-type', 'application/json');
-                request.send();
-            });
-        }
+fetch('https://www.cbr-xml-daily.ru/daily_json.js').then((response) => {
+    return response.json();
+}).then((data) => {
+    rates.USD = data.Valute.USD;
+    rates.EUR = data.Valute.EUR;
+    rates.RUB = {Value: 1};
+    return rates;
+}).then(() => {
+    usdBlock.textContent = rates.USD.Value.toFixed(2);
+    eurBlock.textContent = rates.EUR.Value.toFixed(2);
+    input.addEventListener('input', convert);
+    select.forEach(el => {
+        el.addEventListener('change', convert)
+    });
+    
+})
 
-        select.addEventListener('change', () => {
-            getData()
-                .then((data) => {
-                    data.cars.forEach(item => {
-                        if (item.brand === select.value) {
-                            const {
-                                brand,
-                                model,
-                                price
-                            } = item;
-                            output.innerHTML = `Тачка ${brand} ${model} <br>
-                        Цена: ${price}$`;
-                        }
-                    });
-                }).catch((reason) => {
-                    output.innerHTML = 'Произошла ошибка';
-                })
-        });
+function convert() {
+    input.innerHTML = ''
+    result.value = ((+input.value * rates[select1.value].Value) / rates[select2.value].Value).toFixed(2)
+}
 
-});
+
