@@ -495,7 +495,6 @@ window.addEventListener('DOMContentLoaded', function () {
                         if (response.status !== 200) {
                             throw new Error('status network not 200')
                         }
-                        console.log(response);
                         document.querySelector('.circle').remove();
                         statusMessage.textContent = succesMessage;
                         setTimeout(() => {
