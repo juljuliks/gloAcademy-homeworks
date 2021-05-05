@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 }).catch((reason) => {
-                    console.log(reason);
                     output.innerHTML = 'Произошла ошибка';
                 })
         });
