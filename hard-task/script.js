@@ -11,12 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
             request.setRequestHeader('Content-type', 'application/json');
             request.addEventListener('readystatechange', () => {
                 if (request.status === 200 || request.readyState === 4) {
-                    let data = (JSON.parse(request.responseText));
+                    let data = JSON.parse(request.responseText)
                     resolve(data)
                 }
-                if (request.status === 200 && request.readyState !== 4) {
+                else if (request.status === 200 && request.readyState !== 4) {
                     let reason = request.readyState
-                    console.log('fall', request.readyState);
                     reject(reason)
                 }
             });
@@ -27,10 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     select.addEventListener('change', () => {
         getData()
             .then((data) => {
-                console.log(data);
                 data.cars.forEach(item => {
                     if (item.brand === select.value) {
-                        console.log('here');
                         const {
                             brand,
                             model,
