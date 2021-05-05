@@ -10,27 +10,27 @@
 </head>
 
 <body>
-	<h1>Heroes</h1>
-	<div class="selects">
-		<select name="heroes" id="heroes">
-			<option value>Отсортировать</option>
-			<option value="gender">Пол</option>
-			<option value="movies-count">Количество фильмов</option>
-			<option value="citizenship">Гражданство</option>
+	<header>	
+		<h1>Heroes</h1>
+		<div class="selects">
+			
+		<select name="heroes" id="sort">
+			<option value="">Sort by</option>
+			<option value="name">Name A-Z</option>
+			<option value="name-reversed">Name Z-A</option>
+			<option value="status">Status</option>
+			<option value="species">Species</option>
+			<option value="gender">Gender</option>
+			<option value="movies-count">Number of films</option>
+			<option value="citizenship">Citizenship</option>
+			<option value="films">Films</option>
 		</select>
 
-		<select name="gender" id="heroes">
-			<option value="female">Женский</option>
-			<option value="male">Мужской</option>
-		</select>
-
-		<select name="citizenship" id="heroes">
-			<option value="american">Aмериканское</option>
-			<option value="soviet">CCCP</option>
-			<option value="british">Британия</option>
-			<option value="Asgardian">Aсгардиан</option>
+		<select id='sort2' name="sort2" class='d-none'>
 		</select>
 	</div>
+	</header>
+
 
 	<script src="script.js"></script>
 </body>

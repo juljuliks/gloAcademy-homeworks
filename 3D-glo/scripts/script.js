@@ -367,7 +367,7 @@ window.addEventListener('DOMContentLoaded', function () {
             if (!input.value.match(exp)) {
                 error.add(input.value)
                 input.value = '';
-            } 
+            }
         }
 
         formName.forEach(el => {
@@ -489,8 +489,14 @@ window.addEventListener('DOMContentLoaded', function () {
                 formData.forEach((val, key) => {
                     body[key] = val;
                 })
-                
-                fetch('./server.php')
+
+                fetch('./server.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(body) 
+                    })
                     .then((response) => {
                         if (response.status !== 200) {
                             throw new Error('status network not 200')
@@ -518,10 +524,10 @@ window.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        createRequest(form1); 
-        createRequest(form2); 
+        createRequest(form1);
+        createRequest(form2);
         createRequest(form3);
-    } 
+    }
 
     sendForm()
 });
