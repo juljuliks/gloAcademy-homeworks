@@ -1,5 +1,4 @@
 let rates = {};
-let a, b;
 
 const usdBlock = document.querySelector('[data-value="USD"]');
 const eurBlock = document.querySelector('[data-value="EUR"]');
@@ -23,7 +22,6 @@ fetch('https://www.cbr-xml-daily.ru/daily_json.js').then((response) => {
     select.forEach(el => {
         el.addEventListener('change', convert)
     });
-    
 })
 
 function convert() {
