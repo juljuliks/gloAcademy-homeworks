@@ -1,4 +1,3 @@
-
 const calc = (price = 100) => {
     const calcInputs = document.querySelectorAll('input.calc-item'),
         calcBlock = document.querySelector('.calc-block'),
@@ -31,8 +30,8 @@ const calc = (price = 100) => {
     }
 
     const animateTotal = () => {
+        let target = countSum();
         let timeoutId;
-        let target = countSum()
         const currentValue = +totalValue.textContent;
         const speed = 200;
 
@@ -61,9 +60,9 @@ const calc = (price = 100) => {
         }
     });
 
-    calcType.addEventListener('change', () => {
-        total = 0;
-    });
+    // calcType.addEventListener('change', () => {
+    //     total = 0;
+    // });
 }
 
 export default calc;
