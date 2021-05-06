@@ -1,8 +1,5 @@
 const toggleMenu = () => {
-    const btnMenu = document.querySelector('.menu'),
-        menu = document.querySelector('menu'),
-        closeBtn = document.querySelector('.close-btn'),
-        menuItems = menu.querySelectorAll('ul>li');
+    const menu = document.querySelector('menu');
 
     window.addEventListener('click', (event) => {
         let target = event.target;

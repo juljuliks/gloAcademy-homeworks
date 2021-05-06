@@ -1,3 +1,4 @@
+
 const calc = (price = 100) => {
     const calcInputs = document.querySelectorAll('input.calc-item'),
         calcBlock = document.querySelector('.calc-block'),
@@ -7,10 +8,8 @@ const calc = (price = 100) => {
         calcCount = document.querySelector('.calc-count'),
         totalValue = document.getElementById('total');
 
-    let total = 0;
-    let timeout;
-
     const countSum = () => {
+        let total = 0;
         let countValue = 1,
             dayValue = 1;
 
@@ -26,38 +25,45 @@ const calc = (price = 100) => {
             dayValue *= 1.5;
         }
         if (typeValue && squareValue) {
-            total = price * typeValue * squareValue * countValue * dayValue;
+            total = Math.floor(price * typeValue * squareValue * countValue * dayValue);
         }
-        total = Math.floor(total);
+        return total;
     }
 
     const animateTotal = () => {
-        const target = total;
-        const count = +totalValue.textContent;
+        let timeoutId;
+        let target = countSum()
+        const currentValue = +totalValue.textContent;
         const speed = 200;
 
         const inc = target / speed;
 
-        if (count < target) {
-            totalValue.textContent = Math.floor(count + inc);
-            timeout = setTimeout(animateTotal, 5);
+        if (currentValue < target) {
+            totalValue.textContent = Math.floor(currentValue + inc);
+            timeoutId = setTimeout(animateTotal, 5);
         } else {
             totalValue.textContent = target;
-            clearTimeout(timeout);
+            clearTimeout(timeoutId);
         }
     }
 
     calcBlock.addEventListener('change', (event) => {
         const target = event.target;
         if (target.matches('select') || target.matches('input')) {
-            countSum();
             animateTotal();
+        }
+        if (target.matches('select.calc-type')) {
+            if (calcType.value === '') {
+                calcInputs.forEach(el => {
+                    el.value = '';
+                })
+            }
         }
     });
 
     calcType.addEventListener('change', () => {
         total = 0;
     });
-};
+}
 
 export default calc;
