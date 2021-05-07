@@ -11,7 +11,7 @@ import validateInputs from './modules/validateInputs'
 import calc from './modules/calc'
 import sendForm from './modules/sendForm'
 
-countTimer('07 may 2021');
+countTimer('09 may 2021');
 
 toggleMenu();
 

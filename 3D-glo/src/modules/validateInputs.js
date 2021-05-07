@@ -58,7 +58,7 @@ const validateInputs = () => {
         if (!input.value.match(exp)) {
             error.add(input.value)
             input.value = '';
-        }
+        } 
     }
 
     formName.forEach(el => {
@@ -86,11 +86,13 @@ const validateInputs = () => {
     formPhone.forEach(el => {
         el.addEventListener('blur', () => {
             trim(el);
-            controlInputs(el, /\+?[78]([-()]*\d){10}/g);
+            controlInputs(el, /\+?[78]([-()]*\d){5,}/g);
+            if (el.value.length > 10) {
+                el.value = el.value.substr(0, 11)
+            }
         })
     })
 
     window.addEventListener('input', inputsHandler);
 }
-
 export default validateInputs;
