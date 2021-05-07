@@ -19,7 +19,7 @@ const validateInputs = () => {
             e.target.value = e.target.value.replace(/[^а-яё\-\ ]/gi, '');
         }
         if (e.target.matches('#form2-message')) {
-            e.target.value = e.target.value.replace(/[^а-яё0-9\.\,\:\-\!\? ]/gi, '');
+            e.target.value = e.target.value.replace(/[^а-яё0-9\.\,\:\-\!\?]/gi, '');
         }
         if (e.target.matches('[name=user_email]')) {
             e.target.value = e.target.value.replace(/[^a-z\@\_\-\.\!\~\*\']/gi, '');
@@ -75,6 +75,7 @@ const validateInputs = () => {
     formEmail.forEach(el => {
         el.addEventListener('blur', () => {
             el.value = el.value.replace(/\s/g, '');
+            trim(el);
             controlInputs(el, /\w+@\w+\.\w{2,3}/g);
         })
     })
