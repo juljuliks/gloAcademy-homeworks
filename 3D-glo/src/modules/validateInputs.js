@@ -89,7 +89,7 @@ const validateInputs = () => {
     formPhone.forEach(el => {
         el.addEventListener('blur', () => {
             trim(el);
-            controlInputs(el, /\+?[78]([-()]*\d){5,}/g);
+            controlInputs(el, /\+?([-()]*\d){7,}/g);
         })
     })
 
