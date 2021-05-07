@@ -5,8 +5,6 @@ const validateInputs = () => {
         formEmail = document.querySelectorAll('[name=user_email]'),
         formPhone = document.querySelectorAll('[name=user_phone]');
 
-    let error = new Set();
-
     const validateNumberInputs = () => {
         calcInputs.forEach(el => {
             el.value = el.value.replace(/[^\d]/g, '');
@@ -59,7 +57,6 @@ const validateInputs = () => {
 
     const controlInputs = (input, exp, message = 'Введите корректные данные') => {
         if (!input.value.match(exp)) {
-            error.add(input.value)
             input.value = '';
         } 
     }
