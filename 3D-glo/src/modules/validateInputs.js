@@ -32,6 +32,9 @@ const validateInputs = () => {
         }
         if (e.target.matches('[name=user_phone]')) {
             e.target.value = e.target.value.replace(/[^\d\(\)\-\+]/g, '');
+            if (e.target.value.length > 10) {
+                e.target.value = e.target.value.substring(0, 11)
+            }
         }
     }
 
@@ -87,9 +90,6 @@ const validateInputs = () => {
         el.addEventListener('blur', () => {
             trim(el);
             controlInputs(el, /\+?[78]([-()]*\d){5,}/g);
-            if (el.value.length > 10) {
-                el.value = el.value.substr(0, 11)
-            }
         })
     })
 
