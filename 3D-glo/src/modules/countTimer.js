@@ -1,51 +1,50 @@
-const countTimer = (deadline) => {
-    let timerHours = document.querySelector('#timer-hours'),
-        timerMinutes = document.querySelector('#timer-minutes'),
-        timerSeconds = document.querySelector('#timer-seconds');
+function countTimer(deadline) {
+  const timerHours = document.querySelector('#timer-hours'),
+    timerMinutes = document.querySelector('#timer-minutes'),
+    timerSeconds = document.querySelector('#timer-seconds');
+    let clear = 0;
 
-    function getTimeRemaining() {
-        let dateStop = new Date(deadline).getTime(),
-            dateNow = new Date().getTime(),
-            timeRemaining = (dateStop - dateNow) / 1000,
-            seconds = Math.floor(timeRemaining % 60),
-            minutes = Math.floor((timeRemaining / 60) % 60),
-            hours = Math.floor(timeRemaining / 60 / 60);
-
-        // console.log(timeRemaining);
-        return {
-            timeRemaining,
-            hours,
-            minutes,
-            seconds
-        }
+  function checkZero(number) {
+    const stringNumber = String(number);
+    if (stringNumber.length === 1) {
+      return ('0' + stringNumber);
     }
+    return number;
+  }
 
-    function updateClock() {
-        let timer = getTimeRemaining();
-        let intervalId;
+  function getTimeRemaining() {
+    const dateStop = new Date(deadline).getTime(),
+      dateNow = new Date().getTime(),
+      timeRemaining = (dateStop - dateNow) / 1000, //Для проверок -39250,
+      seconds = Math.floor(timeRemaining % 60),
+      minutes = Math.floor((timeRemaining / 60) % 60),
+      hours = Math.floor(timeRemaining / 60 / 60) % 24;
+      //day = Math.floor(timeRemaining / 60 / 60 / 24);
+    return { timeRemaining, hours, minutes, seconds };
+  }
+  const idInterval = setInterval(updateClock);
+  function updateClock() {
+    const timer = getTimeRemaining();
 
-        function addPrefix(num) {
-            let prefix = '0';
-            if (num < 10) {
-                num = `${prefix}${num}`
-            }
-            return num;
-        }
+    timerHours.textContent = checkZero(timer.hours);
+    timerMinutes.textContent = checkZero(timer.minutes);
+    timerSeconds.textContent = checkZero(timer.seconds);
 
-        timerHours.textContent = addPrefix(timer.hours);
-        timerMinutes.textContent = addPrefix(timer.minutes);
-        timerSeconds.textContent = addPrefix(timer.seconds);
-
-        if (timer.timeRemaining > 0) {
-            intervalId = setInterval(updateClock, 1000);
-        } else {
-            timerHours.textContent = '00';
-            timerMinutes.textContent = '00';
-            timerSeconds.textContent = '00';
-            clearInterval(intervalId);
-        }
+    if (Math.floor(timer.timeRemaining) <= 0) {
+      clearInterval(idInterval);
+      timerHours.textContent = '00';
+      timerMinutes.textContent = '00';
+      timerSeconds.textContent = '00';
+      const timerDiv = document.getElementById('timer');
+      let timerSpans = timerDiv.getElementsByTagName('span');
+      timerSpans = Array.from(timerSpans);
+      timerSpans.forEach(item => {
+        item.style.color = 'red';
+      });
     }
-    updateClock()
-};
+  }
+  updateClock();
+	clear = setInterval(updateClock, 1000);
+}
 
 export default countTimer;
