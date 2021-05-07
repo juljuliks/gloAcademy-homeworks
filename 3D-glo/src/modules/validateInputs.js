@@ -11,10 +11,6 @@ const validateInputs = () => {
         })
     };
 
-    const validateLetterInputs = (input) => {
-        input.value = input.value.replace(/[^а-яё0-9\.\,\:\-\!\? ]/gi, '');
-    };
-
     const inputsHandler = (e) => {
         if (e.target.matches('.calc-item')) {
             validateNumberInputs();
@@ -23,7 +19,7 @@ const validateInputs = () => {
             e.target.value = e.target.value.replace(/[^а-яё\-\ ]/gi, '');
         }
         if (e.target.matches('#form2-message')) {
-            validateLetterInputs(e.target);
+            e.target.value = e.target.value.replace(/[^а-яё0-9\.\,\:\-\!\? ]/gi, '');
         }
         if (e.target.matches('[name=user_email]')) {
             e.target.value = e.target.value.replace(/[^a-z\@\_\-\.\!\~\*\']/gi, '');
@@ -55,7 +51,7 @@ const validateInputs = () => {
             item.charAt(0).toUpperCase() + item.slice(1).toLowerCase()).join(' ');
     }
 
-    const controlInputs = (input, exp, message = 'Введите корректные данные') => {
+    const controlInputs = (input, exp) => {
         if (!input.value.match(exp)) {
             input.value = '';
         } 
@@ -78,8 +74,8 @@ const validateInputs = () => {
 
     formEmail.forEach(el => {
         el.addEventListener('blur', () => {
+            el.value = el.value.replace(/\s/g, '');
             controlInputs(el, /\w+@\w+\.\w{2,3}/g);
-            trim(el);
         })
     })
 
