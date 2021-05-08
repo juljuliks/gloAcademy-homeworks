@@ -10,14 +10,16 @@ import imgChange from './modules/imgChange'
 import validateInputs from './modules/validateInputs'
 import calc from './modules/calc'
 import sendForm from './modules/sendForm'
+// import sliderCarousel from './modules/sliderCarousel'
+
 
 countTimer('09 may 2021');
 
-toggleMenu();
+toggleMenu()
 
-togglePopUp();
+togglePopUp()
 
-scroll();
+scroll()
 
 tabs()
 
@@ -25,8 +27,10 @@ slider()
 
 imgChange()
 
-validateInputs();
+validateInputs()
 
-calc(100);
+calc(100)
 
 sendForm()
+
+// sliderCarousel()
