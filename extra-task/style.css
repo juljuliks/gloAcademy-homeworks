@@ -63,3 +63,6 @@ select {
     display: none;
 }
 
+span {
+    color: #ccc;
+}
