@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     request.send();
 
     const renderHeroes = (arr) => {
+        let content = document.querySelector('.content');
         arr.forEach(el => {
             let movies = (el.movies) ? el.movies.join(', ') : '';
             let realName = (el.realName) ? el.realName : '';
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <p>${movies}</p>
                                 <h3>${el.status}</h3>
                             </div>`
-            document.body.appendChild(div);
+            content.appendChild(div);
         });
     }
 
@@ -86,15 +87,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const filterredByFilm = () => {
         let currentFilmList = []
-        console.log('Выбраный фильм', select2.value);
         allHeroes.forEach((el, i) => {
-            if (el.hasOwnProperty(property) && el[property][i] !== undefined) {
-                if (el['movies'].includes(select2.value)) {
-                    currentFilmList.push(el)
+            if (el.hasOwnProperty(property)) {
+                if (el[property][i] !== undefined) {
+                    if (el['movies'].includes(select2.value)) {
+                        currentFilmList.push(el)
+                    }
                 }
             }
         })
-        console.log(currentFilmList);
         return currentFilmList;
     }
 
