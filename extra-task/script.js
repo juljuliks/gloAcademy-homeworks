@@ -18,15 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let content = document.querySelector('.content');
         arr.forEach(el => {
             let movies = (el.movies) ? el.movies.join(', ') : '';
-            let realName = (el.realName) ? el.realName : '';
+            let realName = (el.realName && el.realName !== el.name) ? el.realName : '';
             let div = document.createElement('div');
             div.setAttribute('class', 'hero_card')
-            div.innerHTML = `<div>
+            div.innerHTML = `<div class="hero_inner">
                                 <img src="${el.photo}" alt="" width="150px">
+                                <div class="hero_info">
                                 <h3>${el.name}</h3>
                                 <h3>${realName}</h3>
                                 <p>${movies}</p>
-                                <h3>${el.status}</h3>
+                                <h3>Status: ${el.status}</h3>
+                                </div>
                             </div>`
             content.appendChild(div);
         });
