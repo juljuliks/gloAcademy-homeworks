@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const allHeroCards = document.querySelectorAll('.hero_card');
     const select = document.querySelector('#sort');
     const select2 = document.querySelector('#sort2');
     const request = new XMLHttpRequest();
@@ -158,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         let currentRender = createFilteredArr();
         renderHeroes(currentRender)
-        let curRen = filterredByFilm();
-        renderHeroes(curRen)
+        let filtByFilms = filterredByFilm();
+        renderHeroes(filtByFilms)
     })
 })

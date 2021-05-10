@@ -151,6 +151,9 @@ body .main .input-cities label {
   cursor: pointer;
 }
 
+.dropdown-lists__total-line:hover {
+  background-color: lightblue;
+}
 .dropdown-lists__country {
   font-weight: 700;
   font-size: 18px;
