@@ -3,7 +3,7 @@
 }
 
 body {
-    margin: 0 auto;
+
     padding: 0;
     color: #fff;
     background-color: black;
@@ -68,6 +68,8 @@ span {
 }
 
 .content {
-    padding: 0 100px;
-    margin: 0 auto;
+    padding: 0 50px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
