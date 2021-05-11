@@ -127,7 +127,7 @@ const getCityInfo = (e) => {
 }
 
 const getTextDataFromInput = (str) => {
-    str = str.replace(/[^а-яa-z\-]/gi, '')
+    str = str.replace(/[^а-яa-z\-\ ]/gi, '')
     return str;
 }
 
