@@ -1,129 +1,258 @@
-const request = new XMLHttpRequest();
-request.open('GET', './db_cities.json');
 let allData = [];
 let allCities = [];
-const selectCitiesInput = document.getElementById('select-cities');
-const dropdownList = document.querySelector('.dropdown-lists');
-let lang = 'RU'
-request.send();
+const selectCitiesInput = document.getElementById('select-cities'),
+    dropdownList = document.querySelector('.dropdown-lists'),
+    defaultList = document.querySelector('.dropdown-lists__list--default'),
+    selectList = document.querySelector('.dropdown-lists__list--select'),
+    autocompleteList = document.querySelector('.dropdown-lists__list--autocomplete'),
+    label = document.querySelector('.label'),
+    closeBtn = document.querySelector('.close-button'),
+    linkButton = document.querySelector('.button');
+const request = new XMLHttpRequest();
+let selectedLocal;
+
+const sendRequest = (lang) => {
+    request.open('GET', `http://localhost:3000/${lang}`);
+    request.send();
+}
+
+const circle = document.createElement('div');
+circle.classList.add('circle');
+
+if (getCookie('lang')) {
+    sendRequest(getCookie('lang'))
+} else {
+    if (selectedLocal === '') {
+        selectedLocal = prompt('Введите локаль');
+    } else {
+        do {
+            selectedLocal = prompt('Введите локаль');
+        } while (selectedLocal !== 'RU' && selectedLocal !== 'EN' && selectedLocal !== 'DE')
+    }
+    sendRequest(selectedLocal);
+    saveCookie();
+}
+
 request.addEventListener('readystatechange', () => {
+    let main = document.querySelector('.main');
+    if (request.readyState !== 4) {
+        document.body.appendChild(circle)
+        main.style.display = 'none';
+    }
     if (request.readyState === 4 && request.status === 200) {
-        allData = JSON.parse(request.responseText);
+        setTimeout(() => {
+            circle.style.display = 'none'
+            main.style.display = 'block';
+        }, 1200)
+        if (localStorage.getItem('allData') === null) {
+            allData = JSON.parse(request.responseText);
+            setStorage()
+        } else {
+            allData = JSON.parse(localStorage.getItem('allData'));
+            circle.style.display = 'none'
+            main.style.display = 'block';
+        }
+        allData = checkLocale(getCookie('lang'), allData)
         start();
     }
-
-    const style = document.createElement('style');
-    style.innerHTML = `
-    .hide {
-        display: none;
-    }
-    .show {
-        display: none;
-    }
-`
-    document.head.appendChild(style)
 })
 
-const getAllCities = () => {
-    let cities = document.querySelectorAll('.dropdown-lists__city');
-    cities.forEach(el => {
-        allCities.push(el.innerText);
-    })
-    return allCities;
+const setStorage = () => {
+    let storageData = []
+    for (const key in allData) {
+        storageData.push(allData[key]);
+    }
+    localStorage.setItem('allData', JSON.stringify(storageData))
 }
 
 const start = () => {
+    linkButton.setAttribute('disabled', true);
+    label.style.display = 'block'
     dropdownList.style.display = 'none';
-    renderAllCountries(allData[lang]);
+    renderAllCountries(allData);
     document.querySelectorAll('.dropdown-lists__total-line').forEach(el => {
         el.addEventListener('click', getSelectedCountry);
     })
-    allCities = getAllCities();
-    selectCitiesInput.addEventListener('input', getAutocomplete)
+    allCities = getAllCitiesData();
+    selectCitiesInput.addEventListener('input', getAutocomplete);
+    document.addEventListener('click', getCityInfo);
+}
+
+const checkLocale = (lang, arr) => {
+    if (lang === 'EN') {
+        [arr[0], arr[2]] = [arr[2], arr[0]];
+    }
+    if (lang === 'DE') {
+        [arr[0], arr[1]] = [arr[1], arr[0]];
+    }
+    return arr;
+}
+
+const getCityInfo = (e) => {
+    label.style.display = 'none'
+    if (e.target.matches('.dropdown-lists__total-line')) {
+        e.preventDefault();
+        linkButton.removeAttribute('href')
+        linkButton.readOnly = true;
+        closeBtn.style.display = 'block';
+        selectCitiesInput.value = getTextDataFromInput(e.target.innerText);
+        return;
+    }
+    if (e.target.closest('.dropdown-lists__line') || e.target.closest('.dropdown-lists__count')) {
+        linkButton.removeAttribute('disabled');
+        closeBtn.style.display = 'block';
+        selectCitiesInput.value = getTextDataFromInput(e.target.innerText.split('\n')[0]);
+        linkButton.setAttribute('href', getLinkAdress())
+    }
+    if (e.target.matches('.close-button')) {
+        selectCitiesInput.value = '';
+        dropdownList.style.display = 'none';
+        closeBtn.style.display = 'none';
+        linkButton.setAttribute('disabled', true)
+        selectList.style.display = 'none';
+        defaultList.style.display = 'block';
+        defaultList.style.right = '0'
+        label.style.display = 'block';
+        return;
+    }
+}
+
+const getTextDataFromInput = (str) => {
+    str = str.replace(/[^а-яa-z\-]/gi, '')
+    return str;
+}
+
+const getLinkAdress = () => {
+    let link = ''
+    let allCitiesData = getAllCitiesData();
+    allCitiesData.forEach(city => {
+        if (city.name === selectCitiesInput.value) {
+            link = city.link;
+        }
+    })
+    return link
 }
 
 const getAutocomplete = (e) => {
-    let searchStr = e.target.value;
-    const filteredCitiesArr = allCities.filter((city) => {
-        return city.includes(searchStr);
+    let allCitiesNames = []
+    allCities.forEach((city) => {
+        allCitiesNames.push(city.name)
     })
-    renderCurrentCity(filteredCitiesArr)
+    let errorBlock = document.createElement('div');
+    autocompleteList.querySelector('.dropdown-lists__col').innerHTML = '';
+    label.classList.toggle('hide')
+    let searchStr = e.target.value.toLowerCase();
+    if (searchStr !== '') {
+        const filteredCitiesArr = allCitiesNames.filter((city) => {
+            city = city.toLowerCase();
+            if (city.slice(0, 1) === searchStr.slice(0, 1)) {
+                return city.includes(searchStr);
+            }
+        })
+        if (filteredCitiesArr.length === 0) {
+            createNonResultBlock(searchStr, errorBlock)
+            return
+        }
+        renderCurrentCity(filteredCitiesArr)
+    } else {
+        defaultList.style.display = 'block';
+    }
 }
+
+const createNonResultBlock = (str, block) => {
+    defaultList.style.display = 'none'
+    autocompleteList.style.display = 'block'
+    let div = autocompleteList.querySelector('.dropdown-lists__col')
+    block.innerHTML = `<div class="dropdown-lists__line">
+                        <div>По вашему запросу <b>"${str}"</b> ничего не найдено</div>
+                      </div>`
+    div.appendChild(block);
+};
 
 const renderCurrentCity = (arr) => {
     let result = [];
-    for (const key in allData[lang]) {
-        let cities = allData[lang][key]['cities']
-        cities.forEach(el => {
-            arr.forEach(city => {
-                if (city === el['name']) {
-                    result.push(el);
-                }
-            })
+    allCities.forEach(el => {
+        arr.forEach(city => {
+            if (city === el.name) {
+                result.push(el)
+            }
         })
-    }
-
-    const defaultList = document.querySelector('.dropdown-lists__list--default');
-    const autocompleteList = document.querySelector('.dropdown-lists__list--autocomplete');
+    })
     defaultList.style.display = 'none';
+    selectList.style.display = 'none';
     autocompleteList.style.display = 'block'
-    
-    console.log(result);
     result.forEach(el => {
         let div = autocompleteList.querySelector('.dropdown-lists__col')
         let block = document.createElement('div');
         block.innerHTML = `<div class="dropdown-lists__line">
                             <div class="dropdown-lists__city">${el['name']}</div>
-                            <div class="dropdown-lists__count">${el['count']}</div>
+                            <div class="dropdown-lists__city-info"><span>${el['country']}</span></div>
                           </div>`
         div.appendChild(block)
     })
 }
 
 const getSelectedCountry = (e) => {
-    let defaultList = document.querySelector('.dropdown-lists__list--default');
-    let selectList = document.querySelector('.dropdown-lists__list--select');
-    for (let key in allData[lang]) {
-        if (allData[lang][key]['country'] == e.currentTarget.children[0].textContent) {
-            defaultList.style.display = 'none';
-            renderSelectedCountry(allData[lang][key])
+    for (let key in allData) {
+        if (allData[key]['country'] == e.currentTarget.children[0].textContent) {
+            animateDropdown(defaultList, selectList, 'right')
+            renderSelectedCountry(allData[key])
         }
     }
-
     selectList.querySelector('.dropdown-lists__total-line').addEventListener('click', (e) => {
         if (getComputedStyle(defaultList).display === 'none') {
-            defaultList.style.display = 'block';
+            animateDropdown(selectList, defaultList)
         }
     });
 }
 
-const renderSelectedCountry = (arr) => {
-    const dropdownList = document.querySelector('.dropdown-lists__list--select').querySelector('.dropdown-lists__col');
-    dropdownList.innerHTML = '';
-    let block = document.createElement('div');
-    block.innerHTML = `<div class="dropdown-lists__countryBlock">
-                                <div class="dropdown-lists__total-line">
-                                    <div class="dropdown-lists__country">${arr['country']}</div>
-                                    <div class="dropdown-lists__count">${arr['count']}</div>
-                                </div>
-                            </div>`
-    dropdownList.appendChild(block);
-    document.querySelector('.dropdown-lists__list--select').style.display = 'block';
+const animateDropdown = (item, item2, direction = 'left') => {
+    item.style.position = 'relative';
+    item2.style.position = 'relative';
+    let count = 0,
+        animate;
 
+    const animation = () => {
+        animate = requestAnimationFrame(animation)
+        count += 6;
+        if (count <= 100) {
+            if (direction === 'right') {
+                item.style.right = count + '%';
+            } else {
+                item.style.left = count + '%';
+            }
+            return;
+        } else {
+            cancelAnimationFrame(animate);
+        }
+        if (direction === 'right') {
+            item.style.display = 'none'
+            item2.style.right = '0';
+            item2.style.left = '0';
+            item2.style.display = 'block'
+        } else {
+            item.style.display = 'none';
+            item2.style.right = '0';
+            item2.style.display = 'block'
+        }
+    }
+    animation()
+}
+
+const renderSelectedCountry = (arr) => {
+    selectList.innerHTML = '';
+    selectList.style.display = 'block';
     let currentCitiesAll = [];
     arr.cities.forEach(el => {
         currentCitiesAll.push(el)
     })
-    renderCities(currentCitiesAll)
+    createCountryBlock(arr['country'], arr['count'], selectList)
+    renderCities(currentCitiesAll, selectList)
 }
 
 selectCitiesInput.addEventListener('click', () => {
     dropdownList.style.display = 'block';
 })
-
-// selectCitiesInput.addEventListener('blur', () => {
-//     dropdownList.style.display = 'none';
-// })
 
 const getTopCities = (arr, count) => {
     let topThreeCities = [];
@@ -143,8 +272,27 @@ const getTopCities = (arr, count) => {
     return resultTopCities;
 }
 
-const renderCities = (arr) => {
-    let div = document.querySelectorAll('.dropdown-lists__countryBlock');
+const renderAllCountries = (arr) => {
+    for (const key in arr) {
+        createCountryBlock(arr[key]['country'], arr[key]['count'], defaultList)
+        let currentTopCities = getTopCities(arr[key]['cities'], 3);
+        renderCities(currentTopCities, defaultList)
+    }
+}
+
+const createCountryBlock = (countryName, countryCount, selector) => {
+    let block = document.createElement('div');
+    block.innerHTML = `<div class="dropdown-lists__countryBlock">
+                            <div class="dropdown-lists__total-line">
+                                <div class="dropdown-lists__country">${countryName}</div>
+                                <div class="dropdown-lists__count">${countryCount}</div>
+                            </div>
+                        </div>`
+    selector.appendChild(block)
+}
+
+const renderCities = (arr, parent = document) => {
+    let div = parent.querySelectorAll('.dropdown-lists__countryBlock');
     arr.forEach(el => {
         let block = document.createElement('div');
         block.innerHTML = `<div class="dropdown-lists__line">
@@ -158,20 +306,33 @@ const renderCities = (arr) => {
     })
 }
 
-const renderAllCountries = (arr) => {
-    const dropdownList = document.querySelector('.dropdown-lists__list--default').querySelector('.dropdown-lists__col');
-
-    for (const key in arr) {
-        let block = document.createElement('div');
-        let currentTopCities = getTopCities(arr[key]['cities'], 3);
-
-        block.innerHTML = `<div class="dropdown-lists__countryBlock">
-                                <div class="dropdown-lists__total-line">
-                                    <div class="dropdown-lists__country">${arr[key]['country']}</div>
-                                    <div class="dropdown-lists__count">${arr[key]['count']}</div>
-                                </div>
-                            </div>`
-        dropdownList.appendChild(block)
-        renderCities(currentTopCities)
+const getAllCitiesData = () => {
+    let allCities = [];
+    for (const key in allData) {
+        allData[key]['cities'].forEach((city) => {
+            let cityData = {
+                country: '',
+                name: '',
+                link: '',
+                count: '',
+            }
+            cityData.country = allData[key]['country'];
+            cityData.name = city.name;
+            cityData.link = city.link;
+            cityData.count = city.count;
+            allCities.push(cityData)
+        })
     }
+    return allCities;
+}
+
+function saveCookie() {
+    document.cookie = `lang=${selectedLocal}`;
+}
+
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ))
+    return matches ? decodeURIComponent(matches[1]) : undefined
 }

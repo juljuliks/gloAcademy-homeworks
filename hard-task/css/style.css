@@ -10,22 +10,33 @@ input:focus {
   outline: none;
 }
 
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
 body {
+  position: relative;
+  min-height: 100vh;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+  background: #00416A;
+  background: -webkit-gradient(linear, left top, left bottom, from(#00416A), to(#E4E5E6));
+  background: linear-gradient(to bottom, #00416A, #E4E5E6);
 }
 
 body .main {
-  min-height: 100vh;
+  
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background: #00416A;
-  background: -webkit-gradient(linear, left top, left bottom, from(#00416A), to(#E4E5E6));
-  background: linear-gradient(to bottom, #00416A, #E4E5E6);
+  
 }
 
 body .main .input-cities {
@@ -132,6 +143,10 @@ body .main .input-cities label {
   width: 100%;
 }
 
+.dropdown-lists__city-info {
+  color: rgb(124, 124, 124);
+}
+
 .dropdown-lists__list--select {
   display: none;
 }
@@ -151,9 +166,14 @@ body .main .input-cities label {
   cursor: pointer;
 }
 
+.dropdown-lists__line:hover {
+  background-color: rgb(214, 245, 255);
+}
+
 .dropdown-lists__total-line:hover {
   background-color: lightblue;
 }
+
 .dropdown-lists__country {
   font-weight: 700;
   font-size: 18px;
@@ -170,6 +190,28 @@ body .main .input-cities label {
 .dropdown-lists__countryBlock {
   margin: 10px 0;
 }
+
+.circle {
+  margin: 200px auto;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 10px solid rgba(255, 255, 255, .1);
+  border-top: 10px solid #fff;
+  animation: animate 2s infinite linear;
+}
+
+
+@keyframes animate {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
 
 #select-cities ~ .focus-border:before,
 #select-cities ~ .focus-border:after {
