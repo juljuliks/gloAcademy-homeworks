@@ -212,7 +212,7 @@ const animateDropdown = (item, item2, direction = 'left') => {
 
     const animation = () => {
         animate = requestAnimationFrame(animation)
-        count += 5;
+        count += 7;
         if (count <= 100) {
             if (direction === 'right') {
                 item.style.right = count + '%';
