@@ -9,15 +9,39 @@ const selectCitiesInput = document.getElementById('select-cities'),
     closeBtn = document.querySelector('.close-button'),
     linkButton = document.querySelector('.button');
 const request = new XMLHttpRequest();
+const circle = document.createElement('div');
+circle.classList.add('circle');
 let selectedLocal;
+
+const changeFirstCountry = (lang, arr) => {
+    if (lang === 'EN') {
+        [arr[0], arr[2]] = [arr[2], arr[0]];
+    }
+    if (lang === 'DE') {
+        [arr[0], arr[1]] = [arr[1], arr[0]];
+    }
+    return arr;
+}
 
 const sendRequest = (lang) => {
     request.open('GET', `http://localhost:3000/${lang}`);
     if (localStorage.getItem('allData') !== null) {
         allData = JSON.parse(localStorage.getItem('allData'));
+        allData = changeFirstCountry(getCookie('lang'), allData)
     } else {
         request.send();
     }
+}
+
+const saveCookie = () => {
+    document.cookie = `lang=${selectedLocal}`;
+} 
+
+const getCookie = (name) => {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ))
+    return matches ? decodeURIComponent(matches[1]) : undefined
 }
 
 if (getCookie('lang')) {
@@ -33,8 +57,6 @@ if (getCookie('lang')) {
     sendRequest(selectedLocal);
     saveCookie();
 }
-const circle = document.createElement('div');
-circle.classList.add('circle');
 
 request.addEventListener('readystatechange', () => {
     let main = document.querySelector('.main');
@@ -49,8 +71,7 @@ request.addEventListener('readystatechange', () => {
         }, 1200)
         allData = JSON.parse(request.responseText);
         setStorage()
-
-        allData = checkLocale(getCookie('lang'), allData)
+        allData = changeFirstCountry(getCookie('lang'), allData)
         start();
     }
 })
@@ -74,16 +95,6 @@ const start = () => {
     allCities = getAllCitiesData();
     selectCitiesInput.addEventListener('input', getAutocomplete);
     document.addEventListener('click', getCityInfo);
-}
-
-const checkLocale = (lang, arr) => {
-    if (lang === 'EN') {
-        [arr[0], arr[2]] = [arr[2], arr[0]];
-    }
-    if (lang === 'DE') {
-        [arr[0], arr[1]] = [arr[1], arr[0]];
-    }
-    return arr;
 }
 
 const getCityInfo = (e) => {
@@ -326,13 +337,3 @@ const getAllCitiesData = () => {
 
 start();
 
-function saveCookie() {
-    document.cookie = `lang=${selectedLocal}`;
-}
-
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ))
-    return matches ? decodeURIComponent(matches[1]) : undefined
-}
