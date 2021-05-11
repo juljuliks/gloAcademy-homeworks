@@ -13,11 +13,12 @@ let selectedLocal;
 
 const sendRequest = (lang) => {
     request.open('GET', `http://localhost:3000/${lang}`);
-    request.send();
+    if (localStorage.getItem('allData') !== null) {
+        allData = JSON.parse(localStorage.getItem('allData'));
+    } else {
+        request.send();
+    }
 }
-
-const circle = document.createElement('div');
-circle.classList.add('circle');
 
 if (getCookie('lang')) {
     sendRequest(getCookie('lang'))
@@ -32,6 +33,8 @@ if (getCookie('lang')) {
     sendRequest(selectedLocal);
     saveCookie();
 }
+const circle = document.createElement('div');
+circle.classList.add('circle');
 
 request.addEventListener('readystatechange', () => {
     let main = document.querySelector('.main');
@@ -44,14 +47,9 @@ request.addEventListener('readystatechange', () => {
             circle.style.display = 'none'
             main.style.display = 'block';
         }, 1200)
-        if (localStorage.getItem('allData') === null) {
-            allData = JSON.parse(request.responseText);
-            setStorage()
-        } else {
-            allData = JSON.parse(localStorage.getItem('allData'));
-            circle.style.display = 'none'
-            main.style.display = 'block';
-        }
+        allData = JSON.parse(request.responseText);
+        setStorage()
+
         allData = checkLocale(getCookie('lang'), allData)
         start();
     }
@@ -214,7 +212,7 @@ const animateDropdown = (item, item2, direction = 'left') => {
 
     const animation = () => {
         animate = requestAnimationFrame(animation)
-        count += 6;
+        count += 5;
         if (count <= 100) {
             if (direction === 'right') {
                 item.style.right = count + '%';
@@ -325,6 +323,8 @@ const getAllCitiesData = () => {
     }
     return allCities;
 }
+
+start();
 
 function saveCookie() {
     document.cookie = `lang=${selectedLocal}`;
