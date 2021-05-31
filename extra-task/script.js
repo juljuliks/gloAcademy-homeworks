@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (e.target.value === 'films') {
             let currentList = sortByFilms()
             createList(currentList, 'film')
-        }
+        };
     }
 
     const sortByFilms = () => {
